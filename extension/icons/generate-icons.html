@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Generate Extension Icons</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f0f0f0;
+    }
+    .icon-container {
+      display: inline-block;
+      margin: 20px;
+      text-align: center;
+    }
+    canvas {
+      border: 1px solid #ccc;
+      background: white;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>YouTube Bookmarks Extension Icons</h1>
+  <p>Click "Generate Icons" to create all icon sizes. Then right-click each canvas and save as PNG.</p>
+  <button onclick="generateIcons()">Generate Icons</button>
+  <br><br>
+
+  <div class="icon-container">
+    <div>16x16</div>
+    <canvas id="icon16" width="16" height="16"></canvas>
+  </div>
+
+  <div class="icon-container">
+    <div>48x48</div>
+    <canvas id="icon48" width="48" height="48"></canvas>
+  </div>
+
+  <div class="icon-container">
+    <div>128x128</div>
+    <canvas id="icon128" width="128" height="128"></canvas>
+  </div>
+
+  <script>
+    function drawIcon(canvas, size) {
+      const ctx = canvas.getContext('2d');
+
+      // Clear canvas
+      ctx.clearRect(0, 0, size, size);
+
+      // Background circle
+      ctx.fillStyle = '#FF0000';
+      ctx.beginPath();
+      ctx.arc(size/2, size/2, size/2 - 1, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Book icon in white
+      ctx.fillStyle = '#FFFFFF';
+
+      // Calculate sizes based on canvas size
+      const bookWidth = size * 0.5;
+      const bookHeight = size * 0.6;
+      const bookX = (size - bookWidth) / 2;
+      const bookY = (size - bookHeight) / 2;
+
+      // Draw book
+      ctx.fillRect(bookX, bookY, bookWidth, bookHeight);
+
+      // Draw book spine/line in middle
+      ctx.fillStyle = '#FF0000';
+      ctx.fillRect(bookX + bookWidth/2 - size*0.02, bookY, size*0.04, bookHeight);
+
+      // Draw bookmark ribbon
+      ctx.fillStyle = '#FFD700';
+      const ribbonWidth = size * 0.08;
+      const ribbonX = bookX + bookWidth * 0.7;
+      ctx.fillRect(ribbonX, bookY, ribbonWidth, bookHeight * 0.7);
+
+      // Ribbon point (triangle)
+      ctx.beginPath();
+      ctx.moveTo(ribbonX, bookY + bookHeight * 0.7);
+      ctx.lineTo(ribbonX + ribbonWidth, bookY + bookHeight * 0.7);
+      ctx.lineTo(ribbonX + ribbonWidth/2, bookY + bookHeight * 0.85);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    function generateIcons() {
+      drawIcon(document.getElementById('icon16'), 16);
+      drawIcon(document.getElementById('icon48'), 48);
+      drawIcon(document.getElementById('icon128'), 128);
+
+      // Auto-download icons
+      ['icon16', 'icon48', 'icon128'].forEach(id => {
+        const canvas = document.getElementById(id);
+        const link = document.createElement('a');
+        link.download = id + '.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      });
+    }
+  </script>
+</body>
+</html>

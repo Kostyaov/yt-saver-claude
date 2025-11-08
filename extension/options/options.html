@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Bookmarks - Налаштування</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>📚 YouTube Bookmarks Saver</h1>
+      <p class="subtitle">Налаштування розширення</p>
+    </header>
+
+    <main>
+      <!-- Authentication Section -->
+      <section class="section">
+        <h2>🔐 Автентифікація Google</h2>
+        <div class="section-content">
+          <div id="authStatus" class="status-box">
+            <div class="status-indicator">
+              <span id="authStatusIcon" class="status-icon">⏳</span>
+              <span id="authStatusText">Перевірка статусу...</span>
+            </div>
+          </div>
+
+          <div class="button-group">
+            <button id="signInBtn" class="btn btn-primary">Увійти в Google</button>
+            <button id="signOutBtn" class="btn btn-secondary hidden">Вийти</button>
+          </div>
+
+          <div class="info-box">
+            <p><strong>Інформація:</strong> Для збереження закладок у Google Таблиці необхідна авторизація через Google OAuth.</p>
+            <p>Розширенню потрібен доступ до Google Sheets API для створення та редагування таблиць.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Spreadsheet Section -->
+      <section class="section">
+        <h2>📊 Google Таблиця</h2>
+        <div class="section-content">
+          <div id="spreadsheetStatus" class="status-box">
+            <div class="status-indicator">
+              <span id="spreadsheetStatusIcon" class="status-icon">⏳</span>
+              <span id="spreadsheetStatusText">Не підключено</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="spreadsheetIdInput">ID таблиці Google Sheets:</label>
+            <div class="input-group">
+              <input
+                type="text"
+                id="spreadsheetIdInput"
+                placeholder="Вставте ID таблиці або натисніть 'Створити нову'"
+              >
+              <button id="connectSpreadsheetBtn" class="btn btn-secondary">Підключити</button>
+            </div>
+            <p class="help-text">
+              ID таблиці можна знайти в URL: <code>https://docs.google.com/spreadsheets/d/<strong>SPREADSHEET_ID</strong>/edit</code>
+            </p>
+          </div>
+
+          <div class="button-group">
+            <button id="createSpreadsheetBtn" class="btn btn-primary">Створити нову таблицю</button>
+            <button id="openSpreadsheetBtn" class="btn btn-secondary hidden">Відкрити таблицю</button>
+          </div>
+
+          <div id="spreadsheetInfo" class="info-box hidden">
+            <h4>Інформація про таблицю:</h4>
+            <p><strong>Назва:</strong> <span id="spreadsheetName">-</span></p>
+            <p><strong>Сторінки:</strong> <span id="spreadsheetSheets">-</span></p>
+            <p><strong>URL:</strong> <a id="spreadsheetUrl" href="#" target="_blank">Відкрити</a></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Themes Section -->
+      <section class="section">
+        <h2>🏷️ Управління темами</h2>
+        <div class="section-content">
+          <div class="form-group">
+            <label for="newThemeInput">Додати нову тему:</label>
+            <div class="input-group">
+              <input
+                type="text"
+                id="newThemeInput"
+                placeholder="Назва теми (наприклад: Python, Arduino...)"
+              >
+              <button id="addThemeBtn" class="btn btn-primary">Додати</button>
+            </div>
+          </div>
+
+          <div class="themes-list">
+            <h4>Існуючі теми:</h4>
+            <ul id="themesList" class="list">
+              <li class="list-item loading">Завантаження...</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Keyboard Shortcuts Section -->
+      <section class="section">
+        <h2>⌨️ Клавіатурні скорочення</h2>
+        <div class="section-content">
+          <div class="shortcut-info">
+            <div class="shortcut-item">
+              <span class="shortcut-label">Зберегти закладку:</span>
+              <span class="shortcut-key">Ctrl+Shift+B</span>
+              <span class="shortcut-key-mac">(⌘+Shift+B на Mac)</span>
+            </div>
+          </div>
+
+          <div class="info-box">
+            <p>Натисніть комбінацію клавіш під час перегляду відео на YouTube, щоб відкрити вікно збереження закладки.</p>
+            <p>Для зміни клавіатурних скорочень перейдіть до <code>chrome://extensions/shortcuts</code></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- About Section -->
+      <section class="section">
+        <h2>ℹ️ Про розширення</h2>
+        <div class="section-content">
+          <div class="info-box">
+            <p><strong>Версія:</strong> 1.0.0</p>
+            <p><strong>Опис:</strong> Розширення для збереження улюблених моментів з YouTube у Google Таблиці.</p>
+            <p>Організуйте свої улюблені відео за темами та ніколи не втрачайте цікаві моменти!</p>
+          </div>
+
+          <h4>Як використовувати:</h4>
+          <ol class="instructions">
+            <li>Увійдіть в обліковий запис Google</li>
+            <li>Створіть нову таблицю або підключіть існуючу</li>
+            <li>Перейдіть на YouTube та відкрийте відео</li>
+            <li>Натисніть на іконку розширення або використайте Ctrl+Shift+B</li>
+            <li>Виберіть тему, тип фрагменту та додайте опис</li>
+            <li>Натисніть "Зберегти"</li>
+          </ol>
+
+          <h4>Структура таблиці:</h4>
+          <p>Кожна тема зберігається на окремій сторінці з наступними колонками:</p>
+          <ul class="feature-list">
+            <li><strong>Адреса (URL)</strong> - посилання на відео</li>
+            <li><strong>Назва відео</strong> - назва з YouTube</li>
+            <li><strong>Початок (сек)</strong> - час початку фрагменту</li>
+            <li><strong>Кінець (сек)</strong> - час кінця фрагменту</li>
+            <li><strong>Опис</strong> - ваш власний опис</li>
+            <li><strong>Опис відео</strong> - автоматичний опис з YouTube</li>
+            <li><strong>Канал</strong> - назва каналу</li>
+            <li><strong>Дата додавання</strong> - коли було збережено</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>© 2024 YouTube Bookmarks Saver</p>
+    </footer>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Save YouTube Bookmark</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>📚 YouTube Bookmarks</h1>
+    </header>
+
+    <div id="loading" class="loading hidden">
+      <div class="spinner"></div>
+      <p>Завантаження інформації про відео...</p>
+    </div>
+
+    <div id="error" class="error hidden">
+      <p id="errorMessage"></p>
+      <button id="retryBtn" class="btn btn-secondary">Спробувати ще раз</button>
+    </div>
+
+    <div id="mainContent" class="hidden">
+      <!-- Video Info Preview -->
+      <div class="video-info">
+        <h3 id="videoTitle">Назва відео</h3>
+        <p class="video-meta">
+          <span id="videoChannel">Канал</span> •
+          <span id="videoTime">0:00</span>
+        </p>
+      </div>
+
+      <!-- Bookmark Form -->
+      <form id="bookmarkForm">
+        <!-- Theme Selection -->
+        <div class="form-group">
+          <label for="themeSelect">Тема:</label>
+          <div class="theme-input-group">
+            <select id="themeSelect" required>
+              <option value="">Виберіть тему...</option>
+            </select>
+            <button type="button" id="addThemeBtn" class="btn-icon" title="Додати нову тему">+</button>
+          </div>
+        </div>
+
+        <!-- New Theme Input (hidden by default) -->
+        <div id="newThemeGroup" class="form-group hidden">
+          <label for="newThemeInput">Нова тема:</label>
+          <div class="theme-input-group">
+            <input type="text" id="newThemeInput" placeholder="Введіть назву теми...">
+            <button type="button" id="cancelThemeBtn" class="btn-icon" title="Скасувати">×</button>
+          </div>
+        </div>
+
+        <!-- Fragment Type -->
+        <div class="form-group">
+          <label>Тип фрагменту:</label>
+          <div class="radio-group">
+            <label class="radio-label">
+              <input type="radio" name="fragmentType" value="start" checked>
+              <span>Початок фрагменту</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="fragmentType" value="end">
+              <span>Кінець фрагменту</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Timestamp Display -->
+        <div class="form-group">
+          <label>Поточний час:</label>
+          <div class="timestamp-display">
+            <span id="currentTimestamp">0:00</span>
+            <span class="timestamp-seconds" id="currentTimestampSeconds">(0 сек)</span>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="form-group">
+          <label for="description">Опис:</label>
+          <textarea
+            id="description"
+            rows="3"
+            placeholder="Додайте опис того, що зберігаєте..."
+            maxlength="500"
+          ></textarea>
+          <div class="char-counter">
+            <span id="charCount">0</span>/500
+          </div>
+        </div>
+
+        <!-- Auto Description Preview -->
+        <div class="form-group">
+          <label>Опис відео:</label>
+          <div class="auto-description" id="autoDescription">
+            Завантаження...
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="button-group">
+          <button type="button" id="cancelBtn" class="btn btn-secondary">Скасувати</button>
+          <button type="submit" id="saveBtn" class="btn btn-primary">Зберегти</button>
+        </div>
+      </form>
+
+      <!-- Status Message -->
+      <div id="statusMessage" class="status-message hidden"></div>
+    </div>
+
+    <!-- Settings Link -->
+    <div class="footer">
+      <a href="#" id="settingsLink">⚙️ Налаштування</a>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
