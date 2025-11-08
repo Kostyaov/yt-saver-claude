@@ -88,10 +88,6 @@ class BookmarkPopup {
     document.getElementById('videoTime').textContent = this.formatTime(this.videoInfo.currentTime);
     document.getElementById('currentTimestamp').textContent = this.formatTime(this.videoInfo.currentTime);
     document.getElementById('currentTimestampSeconds').textContent = `(${this.videoInfo.currentTime} сек)`;
-
-    // Show full description (first 300 chars for preview)
-    const autoDesc = this.videoInfo.description.substring(0, 300);
-    document.getElementById('autoDescription').textContent = autoDesc + (this.videoInfo.description.length > 300 ? '...' : '');
   }
 
   setupEventListeners() {
@@ -232,7 +228,6 @@ class BookmarkPopup {
         watchUrl: this.videoInfo.watchUrl,
         currentTime: this.videoInfo.currentTime,
         description: description,
-        autoDescription: this.videoInfo.description,
         timestamp: new Date().toISOString()
       };
 

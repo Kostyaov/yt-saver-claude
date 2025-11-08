@@ -24,7 +24,7 @@ class GoogleSheetsAPI {
             title: 'Програмування',
             gridProperties: {
               rowCount: 1000,
-              columnCount: 7,
+              columnCount: 5,
               frozenRowCount: 1
             }
           }
@@ -49,11 +49,9 @@ class GoogleSheetsAPI {
   // Setup header row for a sheet
   async setupHeaderRow(sheetName) {
     const headers = [
-      'Адреса (URL)',
       'Назва відео',
       'Подивитися',
       'Опис',
-      'Опис відео',
       'Канал',
       'Дата додавання'
     ];
@@ -156,7 +154,7 @@ class GoogleSheetsAPI {
               title: sheetName,
               gridProperties: {
                 rowCount: 1000,
-                columnCount: 7,
+                columnCount: 5,
                 frozenRowCount: 1
               }
             }
@@ -170,7 +168,7 @@ class GoogleSheetsAPI {
 
   // Append a row to a sheet
   async appendRow(sheetName, rowData) {
-    const range = `${sheetName}!A:G`;
+    const range = `${sheetName}!A:E`;
     const url = `${this.baseUrl}/${this.spreadsheetId}/values/${encodeURIComponent(range)}:append`;
 
     const params = new URLSearchParams({
