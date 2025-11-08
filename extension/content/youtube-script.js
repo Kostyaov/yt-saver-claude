@@ -61,9 +61,28 @@ class YouTubeBookmarkHelper {
     const titleElement = document.querySelector('h1.ytd-watch-metadata yt-formatted-string');
     const title = titleElement ? titleElement.textContent.trim() : 'Unknown Title';
 
-    // Get video description
-    const descriptionElement = document.querySelector('ytd-text-inline-expander#description-inline-expander span.yt-core-attributed-string');
-    const description = descriptionElement ? descriptionElement.textContent.trim() : '';
+    // Get video description - try to expand it first
+    let description = '';
+    try {
+      // Try to click "Show more" button to expand description
+      const expandButton = document.querySelector('ytd-text-inline-expander#description-inline-expander tp-yt-paper-button#expand');
+      if (expandButton && expandButton.getAttribute('aria-label')?.includes('more')) {
+        expandButton.click();
+        // Wait a bit for description to expand
+        await new Promise(resolve => setTimeout(resolve, 100));
+      }
+
+      // Get full description including timestamps
+      const descriptionElement = document.querySelector('ytd-text-inline-expander#description-inline-expander yt-attributed-string span');
+      if (descriptionElement) {
+        description = descriptionElement.innerText || descriptionElement.textContent || '';
+      }
+    } catch (error) {
+      console.warn('Could not get full description:', error);
+      // Fallback to short description
+      const descriptionElement = document.querySelector('ytd-text-inline-expander#description-inline-expander span.yt-core-attributed-string');
+      description = descriptionElement ? descriptionElement.textContent.trim() : '';
+    }
 
     // Get current timestamp
     const currentTime = Math.floor(this.videoPlayer.currentTime);
@@ -71,9 +90,13 @@ class YouTubeBookmarkHelper {
     // Get video duration
     const duration = Math.floor(this.videoPlayer.duration);
 
-    // Get channel name
+    // Get channel name and URL
     const channelElement = document.querySelector('ytd-channel-name a');
-    const channel = channelElement ? channelElement.textContent.trim() : 'Unknown Channel';
+    const channelName = channelElement ? channelElement.textContent.trim() : 'Unknown Channel';
+    const channelUrl = channelElement ? 'https://www.youtube.com' + channelElement.getAttribute('href') : '';
+
+    // Generate short URL with timestamp
+    const watchUrl = this.generateTimestampUrl(videoId, currentTime);
 
     return {
       url: url,
@@ -82,7 +105,9 @@ class YouTubeBookmarkHelper {
       description: description,
       currentTime: currentTime,
       duration: duration,
-      channel: channel,
+      channelName: channelName,
+      channelUrl: channelUrl,
+      watchUrl: watchUrl,
       timestamp: new Date().toISOString()
     };
   }
@@ -90,6 +115,11 @@ class YouTubeBookmarkHelper {
   extractVideoId(url) {
     const urlParams = new URLSearchParams(new URL(url).search);
     return urlParams.get('v') || '';
+  }
+
+  generateTimestampUrl(videoId, seconds) {
+    // Generate short URL with timestamp: https://youtu.be/VIDEO_ID?t=SECONDS
+    return `https://youtu.be/${videoId}?t=${seconds}`;
   }
 
   formatTime(seconds) {

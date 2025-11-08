@@ -4,10 +4,6 @@
 class BookmarkPopup {
   constructor() {
     this.videoInfo = null;
-    this.savedFragments = {
-      start: null,
-      end: null
-    };
     this.themes = [];
 
     this.init();
@@ -22,9 +18,6 @@ class BookmarkPopup {
 
     // Setup event listeners
     this.setupEventListeners();
-
-    // Load saved fragment data if exists
-    this.loadSavedFragmentData();
   }
 
   async loadThemes() {
@@ -91,19 +84,25 @@ class BookmarkPopup {
     if (!this.videoInfo) return;
 
     document.getElementById('videoTitle').textContent = this.videoInfo.title;
-    document.getElementById('videoChannel').textContent = this.videoInfo.channel;
+    document.getElementById('videoChannel').textContent = this.videoInfo.channelName;
     document.getElementById('videoTime').textContent = this.formatTime(this.videoInfo.currentTime);
     document.getElementById('currentTimestamp').textContent = this.formatTime(this.videoInfo.currentTime);
     document.getElementById('currentTimestampSeconds').textContent = `(${this.videoInfo.currentTime} сек)`;
 
-    const autoDesc = this.videoInfo.description.substring(0, 200);
-    document.getElementById('autoDescription').textContent = autoDesc + (this.videoInfo.description.length > 200 ? '...' : '');
+    // Show full description (first 300 chars for preview)
+    const autoDesc = this.videoInfo.description.substring(0, 300);
+    document.getElementById('autoDescription').textContent = autoDesc + (this.videoInfo.description.length > 300 ? '...' : '');
   }
 
   setupEventListeners() {
-    // Add theme button
+    // Add theme button (+ icon)
     document.getElementById('addThemeBtn').addEventListener('click', () => {
       this.toggleNewThemeInput(true);
+    });
+
+    // Add new theme button (Додати button)
+    document.getElementById('addNewThemeBtn').addEventListener('click', () => {
+      this.handleAddNewTheme();
     });
 
     // Cancel theme button
@@ -116,16 +115,16 @@ class BookmarkPopup {
       this.toggleNewThemeInput(false);
     });
 
+    // New theme input - Enter key
+    document.getElementById('newThemeInput').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        this.handleAddNewTheme();
+      }
+    });
+
     // Description character counter
     document.getElementById('description').addEventListener('input', (e) => {
       document.getElementById('charCount').textContent = e.target.value.length;
-    });
-
-    // Fragment type change
-    document.querySelectorAll('input[name="fragmentType"]').forEach(radio => {
-      radio.addEventListener('change', (e) => {
-        this.handleFragmentTypeChange(e.target.value);
-      });
     });
 
     // Form submit
@@ -165,14 +164,33 @@ class BookmarkPopup {
     }
   }
 
-  handleFragmentTypeChange(type) {
-    // Store the current timestamp based on fragment type
-    if (this.videoInfo) {
-      if (type === 'start') {
-        this.savedFragments.start = this.videoInfo.currentTime;
-      } else {
-        this.savedFragments.end = this.videoInfo.currentTime;
+  async handleAddNewTheme() {
+    const input = document.getElementById('newThemeInput');
+    const themeSelect = document.getElementById('themeSelect');
+    const newTheme = input.value.trim();
+
+    if (!newTheme) {
+      return;
+    }
+
+    try {
+      // Add new theme to list if it doesn't exist
+      if (!this.themes.includes(newTheme)) {
+        this.themes.push(newTheme);
+        await chrome.storage.sync.set({ themes: this.themes });
+
+        // Refresh theme dropdown
+        this.populateThemeSelect();
       }
+
+      // Select the new theme
+      themeSelect.value = newTheme;
+
+      // Hide the new theme input
+      this.toggleNewThemeInput(false);
+    } catch (error) {
+      console.error('Error adding theme:', error);
+      alert('Помилка додавання теми: ' + error.message);
     }
   }
 
@@ -201,7 +219,6 @@ class BookmarkPopup {
         throw new Error('Будь ласка, виберіть або додайте тему');
       }
 
-      const fragmentType = document.querySelector('input[name="fragmentType"]:checked').value;
       const description = document.getElementById('description').value.trim();
 
       // Prepare bookmark data
@@ -209,10 +226,11 @@ class BookmarkPopup {
         url: this.videoInfo.url,
         videoId: this.videoInfo.videoId,
         title: this.videoInfo.title,
-        channel: this.videoInfo.channel,
+        channelUrl: this.videoInfo.channelUrl,
+        channelName: this.videoInfo.channelName,
         theme: theme,
-        startTime: fragmentType === 'start' ? this.videoInfo.currentTime : (this.savedFragments.start || 0),
-        endTime: fragmentType === 'end' ? this.videoInfo.currentTime : (this.savedFragments.end || this.videoInfo.duration),
+        watchUrl: this.videoInfo.watchUrl,
+        currentTime: this.videoInfo.currentTime,
         description: description,
         autoDescription: this.videoInfo.description,
         timestamp: new Date().toISOString()
@@ -243,15 +261,6 @@ class BookmarkPopup {
       saveBtn.disabled = false;
       saveBtn.textContent = 'Зберегти';
     }
-  }
-
-  loadSavedFragmentData() {
-    // Check if there's saved fragment data in session storage
-    chrome.storage.session.get(['currentBookmark'], (result) => {
-      if (result.currentBookmark) {
-        this.savedFragments = result.currentBookmark.fragments || { start: null, end: null };
-      }
-    });
   }
 
   formatTime(seconds) {

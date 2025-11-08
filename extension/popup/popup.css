@@ -257,6 +257,11 @@ textarea {
   background: #e0e0e0;
 }
 
+.btn-small {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
 /* Status Message */
 .status-message {
   padding: 12px;

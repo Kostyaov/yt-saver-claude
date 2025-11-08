@@ -96,14 +96,14 @@ async function handleSaveBookmark(bookmarkData) {
     await sheetsAPI.ensureSheetExists(bookmarkData.theme);
 
     // Prepare row data
+    // Structure: URL, Title, Watch (timestamped URL), Description, Auto Description, Channel URL, Date
     const rowData = [
       bookmarkData.url,
       bookmarkData.title,
-      bookmarkData.startTime,
-      bookmarkData.endTime || '',
+      bookmarkData.watchUrl,
       bookmarkData.description,
       bookmarkData.autoDescription,
-      bookmarkData.channel,
+      bookmarkData.channelUrl,
       new Date().toLocaleString('uk-UA')
     ];
 
