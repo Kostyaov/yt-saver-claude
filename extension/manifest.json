@@ -1,16 +1,15 @@
 {
   "manifest_version": 3,
-  "name": "YouTube Bookmarks Saver",
-  "version": "1.0.0",
-  "description": "Save your favorite YouTube moments to Google Sheets organized by topics",
+  "name": "YouTube Bookmarks Saver (Firebase)",
+  "version": "2.0.0",
+  "description": "Save your favorite YouTube moments to Firebase Firestore organized by topics",
   "permissions": [
     "activeTab",
-    "storage",
-    "identity"
+    "storage"
   ],
   "host_permissions": [
     "https://www.youtube.com/*",
-    "https://www.googleapis.com/*"
+    "https://firestore.googleapis.com/*"
   ],
   "background": {
     "service_worker": "background/service-worker.js"
@@ -30,7 +29,7 @@
       "128": "icons/icon128.png"
     }
   },
-  "options_page": "options/options.html",
+  "options_page": "options/options-firebase.html",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
@@ -44,11 +43,5 @@
       },
       "description": "Save current YouTube moment"
     }
-  },
-  "oauth2": {
-    "client_id": "YOUR_CLIENT_ID.apps.googleusercontent.com",
-    "scopes": [
-      "https://www.googleapis.com/auth/spreadsheets"
-    ]
   }
 }

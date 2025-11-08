@@ -1,7 +1,8 @@
 // Background Service Worker
-// Handles Google Sheets API integration and background tasks
+// Handles Firebase Firestore integration and background tasks
 
-importScripts('../utils/google-sheets.js');
+importScripts('../utils/firebase-config.js');
+importScripts('../utils/firebase-api.js');
 
 // Initialize
 chrome.runtime.onInstalled.addListener((details) => {
@@ -17,8 +18,7 @@ chrome.runtime.onInstalled.addListener((details) => {
 async function initializeExtension() {
   const defaults = {
     themes: ['Програмування', 'Python', 'Arduino', 'Web Development', 'JavaScript'],
-    spreadsheetId: null,
-    isAuthenticated: false
+    firebaseConfigured: false
   };
 
   chrome.storage.sync.set(defaults);
@@ -36,22 +36,29 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     return true; // Keep message channel open for async response
   }
 
-  if (request.action === 'authenticate') {
-    handleAuthentication()
+  if (request.action === 'testFirebaseConnection') {
+    handleTestConnection()
       .then(result => sendResponse({ success: true, data: result }))
       .catch(error => sendResponse({ success: false, error: error.message }));
     return true;
   }
 
-  if (request.action === 'createSpreadsheet') {
-    handleCreateSpreadsheet(request.data)
+  if (request.action === 'getBookmarks') {
+    handleGetBookmarks(request.data)
       .then(result => sendResponse({ success: true, data: result }))
       .catch(error => sendResponse({ success: false, error: error.message }));
     return true;
   }
 
-  if (request.action === 'getSpreadsheetInfo') {
-    handleGetSpreadsheetInfo(request.data)
+  if (request.action === 'getStats') {
+    handleGetStats()
+      .then(result => sendResponse({ success: true, data: result }))
+      .catch(error => sendResponse({ success: false, error: error.message }));
+    return true;
+  }
+
+  if (request.action === 'deleteBookmark') {
+    handleDeleteBookmark(request.data)
       .then(result => sendResponse({ success: true, data: result }))
       .catch(error => sendResponse({ success: false, error: error.message }));
     return true;
@@ -72,46 +79,27 @@ chrome.commands.onCommand.addListener((command) => {
   }
 });
 
-// Save bookmark to Google Sheets
+// Save bookmark to Firebase Firestore
 async function handleSaveBookmark(bookmarkData) {
   try {
-    // Check if authenticated
-    const { isAuthenticated, spreadsheetId } = await chrome.storage.sync.get(['isAuthenticated', 'spreadsheetId']);
-
-    if (!isAuthenticated) {
-      throw new Error('Будь ласка, увійдіть в обліковий запис Google у налаштуваннях');
+    // Check if Firebase is configured
+    if (!FirebaseAPI.isConfigured(FIREBASE_CONFIG)) {
+      throw new Error('Firebase не налаштовано. Будь ласка, налаштуйте Firebase у налаштуваннях');
     }
 
-    if (!spreadsheetId) {
-      throw new Error('Будь ласка, створіть або підключіть таблицю у налаштуваннях');
-    }
+    // Create FirebaseAPI instance
+    const firebaseAPI = new FirebaseAPI(FIREBASE_CONFIG);
 
-    // Get or create access token
-    const token = await getAccessToken();
+    // Add bookmark to Firestore
+    const result = await firebaseAPI.addBookmark(bookmarkData);
 
-    // Create GoogleSheetsAPI instance
-    const sheetsAPI = new GoogleSheetsAPI(token, spreadsheetId);
-
-    // Ensure the theme sheet exists
-    await sheetsAPI.ensureSheetExists(bookmarkData.theme);
-
-    // Prepare row data
-    // Structure: Title, Watch (timestamped URL), Description, Channel URL, Date
-    const rowData = [
-      bookmarkData.title,
-      bookmarkData.watchUrl,
-      bookmarkData.description,
-      bookmarkData.channelUrl,
-      new Date().toLocaleString('uk-UA')
-    ];
-
-    // Append data to the sheet
-    await sheetsAPI.appendRow(bookmarkData.theme, rowData);
+    // Mark as configured
+    await chrome.storage.sync.set({ firebaseConfigured: true });
 
     return {
       message: 'Bookmark saved successfully',
-      spreadsheetId: spreadsheetId,
-      theme: bookmarkData.theme
+      bookmarkId: result.id,
+      category: bookmarkData.theme
     };
   } catch (error) {
     console.error('Error saving bookmark:', error);
@@ -119,73 +107,84 @@ async function handleSaveBookmark(bookmarkData) {
   }
 }
 
-// Get Google OAuth access token
-async function getAccessToken() {
-  return new Promise((resolve, reject) => {
-    chrome.identity.getAuthToken({ interactive: true }, (token) => {
-      if (chrome.runtime.lastError) {
-        reject(new Error(chrome.runtime.lastError.message));
-      } else if (token) {
-        resolve(token);
-      } else {
-        reject(new Error('Failed to get access token'));
-      }
-    });
-  });
+// Test Firebase connection
+async function handleTestConnection() {
+  try {
+    if (!FirebaseAPI.isConfigured(FIREBASE_CONFIG)) {
+      throw new Error('Firebase не налаштовано');
+    }
+
+    const firebaseAPI = new FirebaseAPI(FIREBASE_CONFIG);
+    const isConnected = await firebaseAPI.testConnection();
+
+    if (isConnected) {
+      await chrome.storage.sync.set({ firebaseConfigured: true });
+      return {
+        message: 'З\'єднання успішне',
+        configured: true
+      };
+    } else {
+      throw new Error('Не вдалося під\'єднатися до Firebase');
+    }
+  } catch (error) {
+    console.error('Connection test error:', error);
+    throw error;
+  }
 }
 
-// Handle authentication
-async function handleAuthentication() {
+// Get bookmarks (all or by category)
+async function handleGetBookmarks(data) {
   try {
-    const token = await getAccessToken();
+    if (!FirebaseAPI.isConfigured(FIREBASE_CONFIG)) {
+      throw new Error('Firebase не налаштовано');
+    }
 
-    // Mark as authenticated
-    await chrome.storage.sync.set({ isAuthenticated: true });
+    const firebaseAPI = new FirebaseAPI(FIREBASE_CONFIG);
+
+    if (data && data.category) {
+      return await firebaseAPI.getBookmarksByCategory(data.category);
+    } else {
+      return await firebaseAPI.getAllBookmarks();
+    }
+  } catch (error) {
+    console.error('Error getting bookmarks:', error);
+    throw error;
+  }
+}
+
+// Get statistics
+async function handleGetStats() {
+  try {
+    if (!FirebaseAPI.isConfigured(FIREBASE_CONFIG)) {
+      throw new Error('Firebase не налаштовано');
+    }
+
+    const firebaseAPI = new FirebaseAPI(FIREBASE_CONFIG);
+    return await firebaseAPI.getStats();
+  } catch (error) {
+    console.error('Error getting stats:', error);
+    throw error;
+  }
+}
+
+// Delete bookmark
+async function handleDeleteBookmark(data) {
+  try {
+    if (!FirebaseAPI.isConfigured(FIREBASE_CONFIG)) {
+      throw new Error('Firebase не налаштовано');
+    }
+
+    const firebaseAPI = new FirebaseAPI(FIREBASE_CONFIG);
+    await firebaseAPI.deleteBookmark(data.bookmarkId);
 
     return {
-      message: 'Authentication successful',
-      token: token
+      message: 'Закладку видалено',
+      bookmarkId: data.bookmarkId
     };
   } catch (error) {
-    console.error('Authentication error:', error);
+    console.error('Error deleting bookmark:', error);
     throw error;
   }
 }
 
-// Create new spreadsheet
-async function handleCreateSpreadsheet(data) {
-  try {
-    const token = await getAccessToken();
-    const sheetsAPI = new GoogleSheetsAPI(token);
-
-    const spreadsheetId = await sheetsAPI.createSpreadsheet(data.name || 'YouTube Bookmarks');
-
-    // Save spreadsheet ID
-    await chrome.storage.sync.set({ spreadsheetId: spreadsheetId });
-
-    return {
-      spreadsheetId: spreadsheetId,
-      url: `https://docs.google.com/spreadsheets/d/${spreadsheetId}`
-    };
-  } catch (error) {
-    console.error('Error creating spreadsheet:', error);
-    throw error;
-  }
-}
-
-// Get spreadsheet information
-async function handleGetSpreadsheetInfo(data) {
-  try {
-    const token = await getAccessToken();
-    const sheetsAPI = new GoogleSheetsAPI(token, data.spreadsheetId);
-
-    const info = await sheetsAPI.getSpreadsheetInfo();
-
-    return info;
-  } catch (error) {
-    console.error('Error getting spreadsheet info:', error);
-    throw error;
-  }
-}
-
-console.log('Background service worker loaded');
+console.log('Background service worker loaded (Firebase mode)');

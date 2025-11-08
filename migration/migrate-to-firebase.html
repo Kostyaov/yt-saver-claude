@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Міграція з Google Sheets в Firebase</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #ff0000;
+    }
+    .section {
+      margin: 30px 0;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 6px;
+    }
+    .form-group {
+      margin: 15px 0;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 14px;
+    }
+    textarea {
+      font-family: 'Courier New', monospace;
+      min-height: 200px;
+    }
+    .btn {
+      background: #ff0000;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+    .btn:hover {
+      background: #cc0000;
+    }
+    .btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    .status {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 6px;
+      display: none;
+    }
+    .status.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    .status.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    .status.info {
+      background: #d1ecf1;
+      color: #0c5460;
+      border: 1px solid #bee5eb;
+    }
+    .progress {
+      margin-top: 15px;
+    }
+    .progress-bar {
+      width: 100%;
+      height: 30px;
+      background: #e0e0e0;
+      border-radius: 15px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #ff0000, #ff6666);
+      width: 0%;
+      transition: width 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+    }
+    code {
+      background: #f0f0f0;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+    }
+    .warning {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 15px;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔥 Міграція з Google Sheets в Firebase</h1>
+    <p>Цей інструмент допоможе перенести ваші закладки з Google Sheets в Firebase Firestore.</p>
+
+    <div class="warning">
+      <strong>⚠️ Перед початком:</strong>
+      <ul>
+        <li>Переконайтеся, що Firebase налаштовано (див. FIREBASE_SETUP.md)</li>
+        <li>Експортуйте вашу Google Таблицю в CSV формат</li>
+        <li>Збережіть backup ваших даних!</li>
+      </ul>
+    </div>
+
+    <!-- Step 1: Firebase Config -->
+    <div class="section">
+      <h2>Крок 1: Firebase Config</h2>
+      <div class="form-group">
+        <label for="apiKey">API Key:</label>
+        <input type="text" id="apiKey" placeholder="AIzaSy...">
+      </div>
+      <div class="form-group">
+        <label for="projectId">Project ID:</label>
+        <input type="text" id="projectId" placeholder="your-project-id">
+      </div>
+      <p style="font-size: 12px; color: #666;">
+        Знайдіть ці дані в <code>extension/utils/firebase-config.js</code>
+      </p>
+    </div>
+
+    <!-- Step 2: CSV Data -->
+    <div class="section">
+      <h2>Крок 2: CSV Дані</h2>
+      <p>Вставте дані з CSV експорту Google Sheets:</p>
+      <div class="form-group">
+        <label for="csvData">CSV Дані:</label>
+        <textarea id="csvData" placeholder="Назва відео,Подивитися,Опис,Канал,Дата додавання&#10;Video Title,https://youtu.be/xxx?t=123,My description,https://youtube.com/c/channel,2024-01-01"></textarea>
+      </div>
+      <p style="font-size: 12px; color: #666;">
+        Експортуйте кожну сторінку (тему) окремо. Назва сторінки стане категорією.
+      </p>
+      <div class="form-group">
+        <label for="category">Категорія (назва теми):</label>
+        <input type="text" id="category" placeholder="Програмування">
+      </div>
+    </div>
+
+    <!-- Migration Button -->
+    <button class="btn" id="migrateBtn" onclick="startMigration()">Почати міграцію</button>
+
+    <!-- Progress -->
+    <div class="progress" id="progressSection" style="display: none;">
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill">0%</div>
+      </div>
+      <p id="progressText" style="margin-top: 10px; text-align: center;"></p>
+    </div>
+
+    <!-- Status -->
+    <div class="status" id="status"></div>
+  </div>
+
+  <script>
+    let firebaseAPI = null;
+
+    function parseCSV(csv) {
+      const lines = csv.trim().split('\n');
+      const headers = lines[0].split(',');
+      const data = [];
+
+      for (let i = 1; i < lines.length; i++) {
+        const values = lines[i].split(',');
+        if (values.length === headers.length) {
+          const obj = {};
+          headers.forEach((header, index) => {
+            obj[header.trim()] = values[index].trim();
+          });
+          data.push(obj);
+        }
+      }
+
+      return data;
+    }
+
+    function convertToFirebaseFormat(csvRow, category) {
+      // Спробувати витягнути videoId та timestamp з watchUrl
+      const watchUrl = csvRow['Подивитися'] || '';
+      const videoId = extractVideoId(watchUrl);
+      const timestamp = extractTimestamp(watchUrl);
+
+      return {
+        title: csvRow['Назва відео'] || csvRow['Title'] || '',
+        watchUrl: watchUrl,
+        videoUrl: watchUrl.includes('?') ? watchUrl.split('?')[0] : watchUrl,
+        videoId: videoId,
+        description: csvRow['Опис'] || csvRow['Description'] || '',
+        channelUrl: csvRow['Канал'] || csvRow['Channel'] || '',
+        channelName: extractChannelName(csvRow['Канал'] || ''),
+        category: category,
+        currentTime: timestamp,
+        url: watchUrl,
+        theme: category
+      };
+    }
+
+    function extractVideoId(url) {
+      const match = url.match(/(?:youtu\.be\/|youtube\.com\/watch\?v=)([^?&]+)/);
+      return match ? match[1] : '';
+    }
+
+    function extractTimestamp(url) {
+      const match = url.match(/[?&]t=(\d+)/);
+      return match ? parseInt(match[1]) : 0;
+    }
+
+    function extractChannelName(channelUrl) {
+      const match = channelUrl.match(/youtube\.com\/(?:c|channel|user)\/([^/]+)/);
+      return match ? match[1] : 'Unknown';
+    }
+
+    async function startMigration() {
+      const apiKey = document.getElementById('apiKey').value.trim();
+      const projectId = document.getElementById('projectId').value.trim();
+      const csvData = document.getElementById('csvData').value.trim();
+      const category = document.getElementById('category').value.trim();
+
+      // Validation
+      if (!apiKey || !projectId) {
+        showStatus('Заповніть Firebase Config!', 'error');
+        return;
+      }
+
+      if (!csvData || !category) {
+        showStatus('Заповніть CSV дані та категорію!', 'error');
+        return;
+      }
+
+      try {
+        // Parse CSV
+        const rows = parseCSV(csvData);
+
+        if (rows.length === 0) {
+          showStatus('CSV не містить даних!', 'error');
+          return;
+        }
+
+        showStatus(`Знайдено ${rows.length} записів для міграції...`, 'info');
+
+        // Initialize Firebase API
+        const config = {
+          apiKey: apiKey,
+          projectId: projectId,
+          authDomain: `${projectId}.firebaseapp.com`,
+          storageBucket: `${projectId}.appspot.com`,
+          messagingSenderId: '0',
+          appId: '0'
+        };
+
+        // Import FirebaseAPI class
+        // Note: You'll need to load firebase-api.js file here
+        // For simplicity, we'll use direct REST API calls
+
+        // Show progress
+        document.getElementById('progressSection').style.display = 'block';
+        document.getElementById('migrateBtn').disabled = true;
+
+        let successCount = 0;
+        let errorCount = 0;
+
+        for (let i = 0; i < rows.length; i++) {
+          try {
+            const bookmark = convertToFirebaseFormat(rows[i], category);
+
+            // Add to Firestore via REST API
+            await addToFirestore(config, bookmark);
+
+            successCount++;
+          } catch (error) {
+            console.error('Error migrating row:', rows[i], error);
+            errorCount++;
+          }
+
+          // Update progress
+          const progress = Math.round(((i + 1) / rows.length) * 100);
+          document.getElementById('progressFill').style.width = progress + '%';
+          document.getElementById('progressFill').textContent = progress + '%';
+          document.getElementById('progressText').textContent =
+            `Оброблено: ${i + 1} з ${rows.length}`;
+
+          // Small delay to avoid rate limiting
+          await new Promise(resolve => setTimeout(resolve, 100));
+        }
+
+        document.getElementById('migrateBtn').disabled = false;
+        showStatus(
+          `✅ Міграція завершена!\n\nУспішно: ${successCount}\nПомилки: ${errorCount}`,
+          successCount > 0 ? 'success' : 'error'
+        );
+
+      } catch (error) {
+        document.getElementById('migrateBtn').disabled = false;
+        showStatus('Помилка: ' + error.message, 'error');
+        console.error(error);
+      }
+    }
+
+    async function addToFirestore(config, bookmarkData) {
+      const baseUrl = `https://firestore.googleapis.com/v1/projects/${config.projectId}/databases/(default)/documents`;
+
+      const document = {
+        fields: {
+          title: { stringValue: bookmarkData.title },
+          watchUrl: { stringValue: bookmarkData.watchUrl },
+          videoUrl: { stringValue: bookmarkData.videoUrl },
+          videoId: { stringValue: bookmarkData.videoId },
+          description: { stringValue: bookmarkData.description },
+          channelUrl: { stringValue: bookmarkData.channelUrl },
+          channelName: { stringValue: bookmarkData.channelName },
+          category: { stringValue: bookmarkData.category },
+          currentTime: { integerValue: bookmarkData.currentTime.toString() },
+          createdAt: { timestampValue: new Date().toISOString() },
+          updatedAt: { timestampValue: new Date().toISOString() }
+        }
+      };
+
+      const url = `${baseUrl}/bookmarks?key=${config.apiKey}`;
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(document)
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error?.message || 'Failed to add bookmark');
+      }
+
+      return await response.json();
+    }
+
+    function showStatus(message, type) {
+      const status = document.getElementById('status');
+      status.textContent = message;
+      status.className = 'status ' + type;
+      status.style.display = 'block';
+    }
+  </script>
+</body>
+</html>

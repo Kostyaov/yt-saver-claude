@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Bookmarks - Налаштування Firebase</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🔥 YouTube Bookmarks Saver (Firebase)</h1>
+      <p class="subtitle">Налаштування розширення</p>
+    </header>
+
+    <main>
+      <!-- Firebase Connection Status -->
+      <section class="section">
+        <h2>🔥 Статус Firebase</h2>
+        <div class="section-content">
+          <div id="firebaseStatus" class="status-box">
+            <div class="status-indicator">
+              <span id="firebaseStatusIcon" class="status-icon">⏳</span>
+              <span id="firebaseStatusText">Перевірка підключення...</span>
+            </div>
+          </div>
+
+          <div class="button-group">
+            <button id="testConnectionBtn" class="btn btn-primary">Перевірити з'єднання</button>
+          </div>
+
+          <div class="info-box">
+            <h4>ℹ️ Інформація:</h4>
+            <p><strong>Проєкт ID:</strong> <span id="projectId">Не налаштовано</span></p>
+            <p><strong>Стан:</strong> <span id="configStatus">Перевірте конфігурацію</span></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Firebase Setup Instructions -->
+      <section class="section">
+        <h2>📝 Налаштування Firebase</h2>
+        <div class="section-content">
+          <div class="info-box" style="background: #fff3cd; border-left-color: #ffc107;">
+            <h4>⚠️ Потрібно налаштувати Firebase Config</h4>
+            <p>Для роботи розширення необхідно налаштувати файл <code>firebase-config.js</code></p>
+            <p>Детальні інструкції у файлі <strong>FIREBASE_SETUP.md</strong></p>
+          </div>
+
+          <h3>Швидкий старт:</h3>
+          <ol class="instructions">
+            <li>Створіть проєкт у <a href="https://console.firebase.google.com/" target="_blank">Firebase Console</a></li>
+            <li>Увімкніть Firestore Database</li>
+            <li>Отримайте Firebase Config (Web App)</li>
+            <li>Відкрийте файл <code>extension/utils/firebase-config.js</code></li>
+            <li>Замініть placeholder значення на ваші дані з Firebase</li>
+            <li>Перезавантажте розширення</li>
+          </ol>
+
+          <div class="code-example">
+            <h4>Приклад конфігурації:</h4>
+            <pre><code>const FIREBASE_CONFIG = {
+  apiKey: "AIzaSy...",
+  authDomain: "your-project.firebaseapp.com",
+  projectId: "your-project",
+  storageBucket: "your-project.appspot.com",
+  messagingSenderId: "123456789",
+  appId: "1:123456789:web:abcdef"
+};</code></pre>
+          </div>
+
+          <a href="#" id="openSetupGuide" class="btn btn-primary" style="margin-top: 16px;">
+            📖 Відкрити повну інструкцію
+          </a>
+        </div>
+      </section>
+
+      <!-- Statistics -->
+      <section class="section">
+        <h2>📊 Статистика</h2>
+        <div class="section-content">
+          <div id="statsBox" class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-value" id="totalBookmarks">-</div>
+              <div class="stat-label">Всього закладок</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value" id="totalCategories">-</div>
+              <div class="stat-label">Категорій</div>
+            </div>
+          </div>
+
+          <div class="button-group">
+            <button id="refreshStatsBtn" class="btn btn-secondary">Оновити статистику</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Themes Management -->
+      <section class="section">
+        <h2>🏷️ Управління темами</h2>
+        <div class="section-content">
+          <div class="form-group">
+            <label for="newThemeInput">Додати нову тему:</label>
+            <div class="input-group">
+              <input
+                type="text"
+                id="newThemeInput"
+                placeholder="Назва теми (наприклад: Python, Arduino...)"
+              >
+              <button id="addThemeBtn" class="btn btn-primary">Додати</button>
+            </div>
+          </div>
+
+          <div class="themes-list">
+            <h4>Існуючі теми:</h4>
+            <ul id="themesList" class="list">
+              <li class="list-item loading">Завантаження...</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Keyboard Shortcuts -->
+      <section class="section">
+        <h2>⌨️ Клавіатурні скорочення</h2>
+        <div class="section-content">
+          <div class="shortcut-info">
+            <div class="shortcut-item">
+              <span class="shortcut-label">Зберегти закладку:</span>
+              <span class="shortcut-key">Ctrl+Shift+B</span>
+              <span class="shortcut-key-mac">(⌘+Shift+B на Mac)</span>
+            </div>
+          </div>
+
+          <div class="info-box">
+            <p>Натисніть комбінацію клавіш під час перегляду відео на YouTube, щоб відкрити вікно збереження закладки.</p>
+            <p>Для зміни клавіатурних скорочень перейдіть до <code>chrome://extensions/shortcuts</code></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- About -->
+      <section class="section">
+        <h2>ℹ️ Про розширення</h2>
+        <div class="section-content">
+          <div class="info-box">
+            <p><strong>Версія:</strong> 2.0.0 (Firebase)</p>
+            <p><strong>Backend:</strong> Firebase Firestore</p>
+            <p><strong>Опис:</strong> Розширення для збереження улюблених моментів з YouTube у Firebase Firestore.</p>
+          </div>
+
+          <h4>Переваги Firebase версії:</h4>
+          <ul class="feature-list">
+            <li>🚀 <strong>Швидше</strong> - в 10+ разів швидше ніж Google Sheets</li>
+            <li>✅ <strong>Простіше</strong> - без OAuth головного болю</li>
+            <li>⚡ <strong>Real-time</strong> - миттєва синхронізація</li>
+            <li>📱 <strong>Offline</strong> - працює без інтернету</li>
+            <li>💚 <strong>Безкоштовно</strong> - щедрий безкоштовний план</li>
+          </ul>
+
+          <h4>Структура даних:</h4>
+          <ul class="feature-list">
+            <li><strong>Collection:</strong> bookmarks</li>
+            <li><strong>Поля:</strong> title, watchUrl, description, category, channelUrl, currentTime, createdAt</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>© 2024 YouTube Bookmarks Saver (Firebase Edition)</p>
+    </footer>
+  </div>
+
+  <script src="options-firebase.js"></script>
+</body>
+</html>
