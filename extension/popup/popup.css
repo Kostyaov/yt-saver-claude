@@ -25,9 +25,6 @@ header {
   margin-bottom: 16px;
   padding-bottom: 12px;
   border-bottom: 2px solid #e0e0e0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 header h1 {
@@ -36,26 +33,6 @@ header h1 {
   color: #1a1a1a;
 }
 
-.btn-view-bookmarks {
-  background: #2196f3;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.2s;
-  white-space: nowrap;
-}
-
-.btn-view-bookmarks:hover {
-  background: #1976d2;
-}
-
-.btn-view-bookmarks:active {
-  background: #1565c0;
-}
 
 /* Loading State */
 .loading {
@@ -312,18 +289,29 @@ textarea {
   margin-top: 16px;
   padding-top: 12px;
   border-top: 1px solid #e0e0e0;
-  text-align: center;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
 }
 
-.footer a {
+.footer-link {
   color: #666;
   text-decoration: none;
-  font-size: 12px;
-  transition: color 0.2s;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 6px;
+  background: #f5f5f5;
+  transition: all 0.2s;
+  display: inline-block;
+  white-space: nowrap;
 }
 
-.footer a:hover {
+.footer-link:hover {
   color: #ff0000;
+  background: #ffe6e6;
+  transform: translateY(-1px);
 }
 
 /* Utility Classes */

@@ -146,7 +146,8 @@ class BookmarkPopup {
     });
 
     // View bookmarks button
-    document.getElementById('viewBookmarksBtn').addEventListener('click', () => {
+    document.getElementById('viewBookmarksBtn').addEventListener('click', (e) => {
+      e.preventDefault();
       chrome.tabs.create({ url: chrome.runtime.getURL('bookmarks/bookmarks-viewer.html') });
     });
   }
