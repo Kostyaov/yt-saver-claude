@@ -235,63 +235,20 @@ class BookmarksViewer {
   }
 
   createBookmarkCard(bookmark) {
-    const createdDate = new Date(bookmark.createdAt);
-    const formattedDate = createdDate.toLocaleDateString('uk-UA', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-
-    const timeFormatted = this.formatTime(bookmark.currentTime);
     const watchUrl = bookmark.watchUrl || `${bookmark.videoUrl}&t=${Math.floor(bookmark.currentTime)}s`;
+    const description = bookmark.description || '';
 
     return `
-      <div class="bookmark-card" data-bookmark-id="${bookmark.id}">
-        <div class="bookmark-header">
-          <div class="bookmark-category">${this.escapeHtml(bookmark.category || 'Без категорії')}</div>
-          <button class="delete-bookmark-btn" data-bookmark-id="${bookmark.id}" title="Видалити закладку">
-            🗑️
-          </button>
-        </div>
-
-        <div class="bookmark-content">
-          <h3 class="bookmark-title">
-            <a href="${this.escapeHtml(watchUrl)}" target="_blank" rel="noopener noreferrer">
-              ${this.escapeHtml(bookmark.title || 'Без назви')}
-            </a>
-          </h3>
-
-          ${bookmark.description ? `
-            <p class="bookmark-description">${this.escapeHtml(bookmark.description)}</p>
-          ` : ''}
-
-          <div class="bookmark-meta">
-            <div class="meta-item">
-              <span class="meta-icon">📺</span>
-              <a href="${this.escapeHtml(bookmark.channelUrl)}" target="_blank" rel="noopener noreferrer" class="meta-link">
-                ${this.escapeHtml(bookmark.channelName || 'Невідомий канал')}
-              </a>
-            </div>
-
-            <div class="meta-item">
-              <span class="meta-icon">⏱️</span>
-              <span class="meta-text">${timeFormatted}</span>
-            </div>
-
-            <div class="meta-item">
-              <span class="meta-icon">📅</span>
-              <span class="meta-text">${formattedDate}</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="bookmark-footer">
-          <a href="${this.escapeHtml(watchUrl)}" target="_blank" rel="noopener noreferrer" class="btn-watch">
-            ▶️ Дивитись з ${timeFormatted}
+      <div class="bookmark-row" data-bookmark-id="${bookmark.id}">
+        <div class="bookmark-description">${this.escapeHtml(description)}</div>
+        <div class="bookmark-link">
+          <a href="${this.escapeHtml(watchUrl)}" target="_blank" rel="noopener noreferrer">
+            ${this.escapeHtml(watchUrl)}
           </a>
         </div>
+        <button class="delete-bookmark-btn" data-bookmark-id="${bookmark.id}" title="Видалити">
+          🗑️
+        </button>
       </div>
     `;
   }

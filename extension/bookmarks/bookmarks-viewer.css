@@ -266,148 +266,72 @@ header h1 {
 
 /* Bookmarks List */
 .bookmarks-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 20px;
-}
-
-/* Bookmark Card */
-.bookmark-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
+  gap: 8px;
 }
 
-.bookmark-card:hover {
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-  transform: translateY(-4px);
-}
-
-.bookmark-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 16px;
-  background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
-}
-
-.bookmark-category {
-  font-size: 12px;
-  font-weight: 600;
-  color: white;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.delete-bookmark-btn {
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: white;
-  font-size: 16px;
-  padding: 4px 10px;
+/* Bookmark Row */
+.bookmark-row {
+  background: white;
+  border: 1px solid #e0e0e0;
   border-radius: 6px;
-  cursor: pointer;
+  padding: 12px 16px;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 16px;
+  align-items: center;
   transition: all 0.2s;
 }
 
-.delete-bookmark-btn:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: scale(1.1);
-}
-
-.bookmark-content {
-  padding: 20px;
-  flex: 1;
-}
-
-.bookmark-title {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 12px;
-  line-height: 1.4;
-}
-
-.bookmark-title a {
-  color: #333;
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.bookmark-title a:hover {
-  color: #ff0000;
+.bookmark-row:hover {
+  background: #f8f9fa;
+  border-color: #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
 .bookmark-description {
   font-size: 14px;
-  color: #666;
-  margin-bottom: 16px;
+  color: #333;
   line-height: 1.5;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
   overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.bookmark-meta {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.meta-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.bookmark-link {
   font-size: 13px;
+  min-width: 200px;
 }
 
-.meta-icon {
-  font-size: 14px;
-  opacity: 0.8;
-}
-
-.meta-link {
-  color: #666;
+.bookmark-link a {
+  color: #2196f3;
   text-decoration: none;
   transition: color 0.2s;
+  word-break: break-all;
 }
 
-.meta-link:hover {
-  color: #ff0000;
+.bookmark-link a:hover {
+  color: #1565c0;
+  text-decoration: underline;
 }
 
-.meta-text {
+.delete-bookmark-btn {
+  background: #f5f5f5;
+  border: 1px solid #e0e0e0;
   color: #666;
-}
-
-.bookmark-footer {
-  padding: 16px;
-  background: #f8f9fa;
-  border-top: 1px solid #e0e0e0;
-}
-
-.btn-watch {
-  display: block;
-  width: 100%;
-  padding: 10px 16px;
-  background: #ff0000;
-  color: white;
-  text-align: center;
-  text-decoration: none;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 16px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
   transition: all 0.2s;
+  white-space: nowrap;
 }
 
-.btn-watch:hover {
-  background: #cc0000;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(255, 0, 0, 0.2);
+.delete-bookmark-btn:hover {
+  background: #ffebee;
+  border-color: #f44336;
+  color: #f44336;
 }
 
 /* Delete Modal */
@@ -557,8 +481,17 @@ header h1 {
     gap: 12px;
   }
 
-  .bookmarks-list {
+  .bookmark-row {
     grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .bookmark-link {
+    min-width: auto;
+  }
+
+  .delete-bookmark-btn {
+    justify-self: end;
   }
 
   .modal-content {
@@ -587,10 +520,6 @@ header h1 {
 
   .header-actions .btn {
     width: 100%;
-  }
-
-  .bookmark-title {
-    font-size: 15px;
   }
 
   .toast {
