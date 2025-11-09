@@ -1,8 +1,8 @@
 // Background Service Worker
 // Handles Firebase Firestore integration and background tasks
 
-importScripts('../utils/firebase-config.js');
-importScripts('../utils/firebase-api.js');
+importScripts('utils/firebase-config.js');
+importScripts('utils/firebase-api.js');
 
 // Initialize
 chrome.runtime.onInstalled.addListener((details) => {
