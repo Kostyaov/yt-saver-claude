@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Збережені закладки - YouTube Bookmarks</title>
+  <link rel="stylesheet" href="bookmarks-viewer.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div class="header-content">
+        <h1>📖 Збережені закладки</h1>
+        <div class="header-actions">
+          <button id="refreshBtn" class="btn btn-secondary" title="Оновити список">
+            🔄 Оновити
+          </button>
+          <button id="exportBtn" class="btn btn-secondary" title="Експортувати">
+            📥 Експорт
+          </button>
+        </div>
+      </div>
+
+      <!-- Search and Filter -->
+      <div class="toolbar">
+        <div class="search-box">
+          <input type="text" id="searchInput" placeholder="🔍 Пошук по назві, опису, каналу...">
+        </div>
+        <div class="filter-group">
+          <label for="categoryFilter">Категорія:</label>
+          <select id="categoryFilter">
+            <option value="">Всі категорії</option>
+          </select>
+        </div>
+        <div class="sort-group">
+          <label for="sortSelect">Сортування:</label>
+          <select id="sortSelect">
+            <option value="newest">Найновіші</option>
+            <option value="oldest">Найстаріші</option>
+            <option value="title">За назвою</option>
+            <option value="category">За категорією</option>
+          </select>
+        </div>
+      </div>
+    </header>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+      <div class="stat-item">
+        <span class="stat-label">Всього:</span>
+        <span class="stat-value" id="totalCount">0</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Показано:</span>
+        <span class="stat-value" id="displayedCount">0</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Категорій:</span>
+        <span class="stat-value" id="categoriesCount">0</span>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loading" class="loading">
+      <div class="spinner"></div>
+      <p>Завантаження закладок...</p>
+    </div>
+
+    <!-- Empty State -->
+    <div id="emptyState" class="empty-state hidden">
+      <div class="empty-icon">📚</div>
+      <h2>Закладок ще немає</h2>
+      <p>Збережіть свої улюблені моменти з YouTube відео</p>
+      <p class="help-text">Натисніть <strong>Ctrl+Shift+B</strong> на сторінці YouTube</p>
+    </div>
+
+    <!-- No Results State -->
+    <div id="noResults" class="empty-state hidden">
+      <div class="empty-icon">🔍</div>
+      <h2>Нічого не знайдено</h2>
+      <p>Спробуйте змінити критерії пошуку</p>
+    </div>
+
+    <!-- Bookmarks List -->
+    <div id="bookmarksList" class="bookmarks-list hidden">
+      <!-- Bookmarks will be inserted here dynamically -->
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div id="deleteModal" class="modal hidden">
+    <div class="modal-content">
+      <h3>Видалити закладку?</h3>
+      <p id="deleteMessage">Ви впевнені що хочете видалити цю закладку?</p>
+      <div class="modal-actions">
+        <button id="cancelDelete" class="btn btn-secondary">Скасувати</button>
+        <button id="confirmDelete" class="btn btn-danger">Видалити</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast hidden">
+    <span id="toastMessage"></span>
+  </div>
+
+  <script src="bookmarks-viewer.js"></script>
+</body>
+</html>

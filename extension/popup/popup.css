@@ -25,12 +25,36 @@ header {
   margin-bottom: 16px;
   padding-bottom: 12px;
   border-bottom: 2px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 header h1 {
   font-size: 18px;
   font-weight: 600;
   color: #1a1a1a;
+}
+
+.btn-view-bookmarks {
+  background: #2196f3;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.btn-view-bookmarks:hover {
+  background: #1976d2;
+}
+
+.btn-view-bookmarks:active {
+  background: #1565c0;
 }
 
 /* Loading State */
