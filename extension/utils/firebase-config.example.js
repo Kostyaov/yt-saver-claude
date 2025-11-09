@@ -1,5 +1,5 @@
-// Firebase Configuration
-// Replace these values with your Firebase project config
+// Firebase Configuration Example
+// Copy this file to firebase-config.js and replace with your Firebase project config
 
 const FIREBASE_CONFIG = {
   apiKey: "YOUR_API_KEY",

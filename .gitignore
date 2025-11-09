@@ -30,6 +30,9 @@ yarn-error.log*
 .env
 .env.local
 
+# Firebase configuration (contains personal API keys)
+extension/utils/firebase-config.js
+
 # Build output (if you add build process)
 dist/
 build/
