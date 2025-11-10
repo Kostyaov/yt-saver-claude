@@ -988,28 +988,22 @@ Firebase → IndexedDB:
 - Bookmarks over time graph
 - Average watch time
 
-#### 6. Keyboard Shortcuts
-- Navigate viewer with arrow keys
-- Quick search with `/`
-- Delete with `Del` key
-- Copy link with `Ctrl+C`
-
-#### 7. Duplicate Detection
+#### 6. Duplicate Detection
 - Warn if same video+timestamp already saved
 - Show existing bookmark
 - Option to update instead of duplicate
 
-#### 8. Video Thumbnails
+#### 7. Video Thumbnails
 - Cache YouTube thumbnails locally
 - Display in viewer for visual identification
 - Lazy loading for performance
 
-#### 9. Notes Markdown Support
+#### 8. Notes Markdown Support
 - Rich text descriptions
 - Markdown rendering in viewer
 - Code snippet support
 
-#### 10. Export Formats
+#### 9. Export Formats
 - Markdown file
 - HTML page (standalone)
 - CSV spreadsheet

@@ -121,11 +121,6 @@
     "warningTitle": "Warning!",
     "warningText": "Deleting all bookmarks is irreversible. Make a data export first!",
 
-    "keyboardShortcuts": "⌨️ Keyboard Shortcuts",
-    "saveShortcutLabel": "Save bookmark:",
-    "shortcutDescription": "Press the key combination while watching a YouTube video to open the bookmark save window.",
-    "changeShortcutHint": "To change keyboard shortcuts, go to chrome://extensions/shortcuts",
-
     "aboutSection": "ℹ️ About Extension",
     "versionLabel": "Version:",
     "storageLabel": "Storage:",

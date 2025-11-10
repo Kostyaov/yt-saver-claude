@@ -121,11 +121,6 @@
     "warningTitle": "Увага!",
     "warningText": "Видалення всіх закладок незворотнє. Спочатку зробіть експорт даних!",
 
-    "keyboardShortcuts": "⌨️ Клавіатурні скорочення",
-    "saveShortcutLabel": "Зберегти закладку:",
-    "shortcutDescription": "Натисніть комбінацію клавіш під час перегляду відео на YouTube, щоб відкрити вікно збереження закладки.",
-    "changeShortcutHint": "Для зміни клавіатурних скорочень перейдіть до chrome://extensions/shortcuts",
-
     "aboutSection": "ℹ️ Про розширення",
     "versionLabel": "Версія:",
     "storageLabel": "Сховище:",
