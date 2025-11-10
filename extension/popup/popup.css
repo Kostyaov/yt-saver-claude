@@ -69,6 +69,12 @@ header h1 {
   margin-bottom: 12px;
 }
 
+.error-hint {
+  color: #666 !important;
+  font-size: 12px;
+  margin-top: 8px;
+}
+
 /* Video Info */
 .video-info {
   background: #f8f9fa;
@@ -289,10 +295,12 @@ textarea {
   margin-top: 16px;
   padding-top: 12px;
   border-top: 1px solid #e0e0e0;
-  display: flex;
+  display: flex !important;
   gap: 12px;
   justify-content: center;
   align-items: center;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 .footer-link {

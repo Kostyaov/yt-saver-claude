@@ -10,14 +10,14 @@ class BookmarkPopup {
   }
 
   async init() {
+    // Setup event listeners first (so footer buttons always work)
+    this.setupEventListeners();
+
     // Load themes from storage
     await this.loadThemes();
 
     // Load video information
     await this.loadVideoInfo();
-
-    // Setup event listeners
-    this.setupEventListeners();
   }
 
   async loadThemes() {
@@ -132,11 +132,6 @@ class BookmarkPopup {
     // Cancel button
     document.getElementById('cancelBtn').addEventListener('click', () => {
       window.close();
-    });
-
-    // Retry button
-    document.getElementById('retryBtn').addEventListener('click', () => {
-      this.loadVideoInfo();
     });
 
     // Settings link
