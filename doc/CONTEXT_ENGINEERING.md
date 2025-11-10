@@ -29,6 +29,9 @@ Browser extension (Chrome/Edge/Brave/Opera) для збереження закл
 - ✅ **Експорт/імпорт у JSON формат**
 - ✅ **Переглядач закладок з пошуком та фільтрацією**
 - ✅ **Працює офлайн - без залежностей від хмарних сервісів**
+- ✅ **Інтернаціоналізація - англійська та українська мови**
+- ✅ **Підтримка тем - світла та темна теми**
+- ✅ **Авто-пауза відео при збереженні закладки**
 - ✅ Keyboard shortcut (Ctrl+Shift+B / Cmd+Shift+B)
 - ✅ Кнопки "Збережене" та "Налаштування" доступні на всіх сторінках
 
@@ -80,8 +83,12 @@ extension/
 │   ├── bookmarks-viewer.html # Bookmarks viewer page
 │   ├── bookmarks-viewer.js   # Viewer logic (search, filter, sort, delete)
 │   └── bookmarks-viewer.css  # Row-based display styles
+├── locales/                  # NEW: Internationalization
+│   ├── en.json              # English translations (195 lines)
+│   └── uk.json              # Ukrainian translations (195 lines)
 └── utils/
-    └── idb-api.js            # IndexedDB API wrapper class
+    ├── idb-api.js            # IndexedDB API wrapper class
+    └── i18n.js               # NEW: Internationalization utility (159 lines)
 ```
 
 ### Key Architecture Decisions
@@ -332,6 +339,253 @@ exportBookmarks()           // Download JSON
 
 ---
 
+## 🌍 Internationalization (i18n)
+
+### Overview
+
+**Version Added:** v3.0.0
+**Supported Languages:** English (en), Ukrainian (uk)
+**Default Language:** English
+
+### Architecture
+
+**Files:**
+- `extension/locales/en.json` - English translations (195 lines)
+- `extension/locales/uk.json` - Ukrainian translations (195 lines)
+- `extension/utils/i18n.js` - i18n utility class (159 lines)
+
+### Translation Structure
+
+**JSON Format:**
+```json
+{
+  "appName": "YouTube Bookmarks Saver",
+  "popup": {
+    "title": "YouTube Bookmarks",
+    "themeSelectPlaceholder": "Select a theme...",
+    "saveButton": "Save",
+    // ... 30+ popup keys
+  },
+  "options": {
+    "title": "Settings",
+    "connectionSuccess": "IndexedDB working successfully!",
+    "saveSettingsButton": "Save Settings",
+    // ... 70+ options keys
+  },
+  "bookmarks": {
+    "title": "Saved Bookmarks",
+    "allCategories": "All Categories",
+    // ... 20+ bookmarks keys
+  },
+  "common": {
+    "error": "Error",
+    "cancel": "Cancel"
+  }
+}
+```
+
+### i18n.js API
+
+**Class:** `I18n`
+
+**Methods:**
+```javascript
+class I18n {
+  async init()                  // Initialize, load saved language
+  async loadTranslations(lang)  // Load JSON for language
+  t(keyPath)                    // Get translation by dot notation
+  applyTranslations()           // Apply to DOM [data-i18n] elements
+  async setLanguage(lang)       // Change language, save to storage
+  getCurrentLanguage()          // Get current language code
+}
+```
+
+**Usage Example:**
+```javascript
+// Initialize on page load
+await i18n.init();
+i18n.applyTranslations();
+
+// Get translation programmatically
+const text = i18n.t('popup.saveButton'); // "Save" or "Зберегти"
+
+// Change language
+await i18n.setLanguage('uk');
+```
+
+### HTML Integration
+
+**Static Text (data-i18n attribute):**
+```html
+<h1 data-i18n="popup.title">YouTube Bookmarks</h1>
+<button data-i18n="popup.saveButton">Save</button>
+```
+
+**Attributes (data-i18n-attr):**
+```html
+<input
+  data-i18n="popup.searchPlaceholder"
+  data-i18n-attr="placeholder"
+  placeholder="Search...">
+```
+
+**JavaScript applies translations automatically to all elements with `data-i18n`.**
+
+### Dynamic Content
+
+**Problem:** JavaScript-generated content isn't covered by `data-i18n` attributes.
+
+**Solution:** Use `i18n.t()` method:
+```javascript
+// ❌ BAD - Hardcoded text
+statusText.textContent = 'IndexedDB працює успішно!';
+
+// ✅ GOOD - Localized
+statusText.textContent = i18n.t('options.connectionSuccess');
+```
+
+**Examples:**
+```javascript
+// Popup theme dropdown
+select.innerHTML = `<option value="">${i18n.t('popup.themeSelectPlaceholder')}</option>`;
+
+// Bookmarks category filter
+categoryFilter.innerHTML = `<option value="">${i18n.t('bookmarks.allCategories')}</option>`;
+
+// Notification messages
+this.showNotification(i18n.t('options.exportSuccess'), 'success');
+
+// Error messages
+this.showNotification(i18n.t('options.exportError') + ' ' + error.message, 'error');
+```
+
+### Language Switching
+
+**Flow:**
+1. User selects language in options page
+2. JavaScript calls `i18n.setLanguage(newLanguage)`
+3. Translations loaded from JSON file
+4. Language saved to `chrome.storage.sync`
+5. Page reloads to apply new language
+
+**Implementation:**
+```javascript
+// In options-idb.js
+async saveSettings() {
+  const currentLanguage = i18n.getCurrentLanguage();
+  const newLanguage = document.getElementById('languageSelect').value;
+  const languageChanged = currentLanguage !== newLanguage;
+
+  if (languageChanged) {
+    await i18n.setLanguage(newLanguage);
+    // Reload page to re-apply translations
+    setTimeout(() => window.location.reload(), 800);
+    return;
+  }
+
+  // Save other settings...
+}
+```
+
+### Storage
+
+**Language preference stored in:**
+```javascript
+chrome.storage.sync.set({ language: 'uk' });
+```
+
+**Benefits:**
+- Synced across devices (if user logged into Chrome)
+- Persists after browser restart
+- Independent from IndexedDB
+
+### Service Worker Limitations
+
+**Problem:** Service worker doesn't have access to i18n.js (no DOM)
+
+**Solution:** Don't return text messages from service worker. Return only status, generate messages on client side.
+
+**Example:**
+```javascript
+// ❌ BAD - Hardcoded message in service worker
+return { success: true, message: 'IndexedDB працює успішно!' };
+
+// ✅ GOOD - No message, client generates it
+return { success: true }; // Client uses i18n.t('options.connectionSuccess')
+```
+
+### Adding New Translations
+
+**Steps:**
+
+1. Add key to both `en.json` and `uk.json`:
+```json
+// en.json
+"popup": {
+  "newFeature": "My New Feature"
+}
+
+// uk.json
+"popup": {
+  "newFeature": "Моя нова функція"
+}
+```
+
+2. Use in HTML:
+```html
+<span data-i18n="popup.newFeature">My New Feature</span>
+```
+
+3. Or use in JavaScript:
+```javascript
+const text = i18n.t('popup.newFeature');
+```
+
+### Translation Keys Organization
+
+**Naming Convention:**
+- `section.element` - e.g., `popup.saveButton`, `options.themeLabel`
+- `section.action` - e.g., `popup.saving`, `bookmarks.exportSuccess`
+- `section.error` - e.g., `options.connectionError`, `bookmarks.loadError`
+
+**Sections:**
+- `appName` - Extension name
+- `popup.*` - Popup window translations
+- `options.*` - Options page translations
+- `bookmarks.*` - Bookmarks viewer translations
+- `common.*` - Shared translations (error, cancel, ok, etc.)
+
+### Testing i18n
+
+**Checklist:**
+- [ ] All static HTML elements translated
+- [ ] All dynamic JavaScript content translated
+- [ ] Error messages localized
+- [ ] Success messages localized
+- [ ] Placeholder texts localized
+- [ ] Button titles localized
+- [ ] Modal dialogs localized
+- [ ] Language switch works without errors
+- [ ] Page reload applies new language
+- [ ] No hardcoded text remains
+
+**Browser Native Messages:**
+- Native validation messages (e.g., "Please select an item from the list") are controlled by browser language settings
+- Cannot be localized via extension code
+- This is expected behavior
+
+### Future i18n Enhancements
+
+**Planned:**
+- Add more languages (Spanish, French, German, Polish)
+- Date/time localization
+- Number formatting (1,000 vs 1.000)
+- Pluralization support (1 bookmark vs 2 bookmarks)
+- Language auto-detection from browser
+- RTL language support (Arabic, Hebrew)
+
+---
+
 ## 🎨 UI/UX Details
 
 ### Popup (extension/popup/)
@@ -378,23 +632,44 @@ Users can access their bookmarks from any website, not just when watching YouTub
 
 #### Features
 
-1. **Status Check**
+1. **General Settings** (New in v3.0.0)
+   - **Theme Selection** - Light or dark theme
+     - Applied globally across all extension pages (popup, bookmarks, options)
+     - Stored in `chrome.storage.sync` (synced across devices)
+     - Uses CSS custom properties (`--bg-color`, `--text-color`, etc.)
+   - **Language Selection** - English or Ukrainian
+     - Applied to all UI elements via i18n system
+     - Stored in `chrome.storage.sync`
+     - Page reloads when language changes
+   - **Auto-Pause Video** - Option to pause YouTube video when saving bookmark
+     - Sends message to content script
+     - Useful for continuing exactly from bookmarked moment
+     - Stored in `chrome.storage.sync`
+
+2. **Status Check**
    - Shows database connection status
    - Displays IndexedDB database name and version
+   - Test connection button
 
-2. **Statistics**
+3. **Statistics**
    - Total bookmarks count
    - Database size (estimated)
    - Categories count
+   - Bookmarks breakdown by category
 
-3. **Export/Import**
+4. **Themes Management**
+   - Add new themes/categories
+   - View existing themes
+   - Delete themes (with confirmation)
+
+5. **Export/Import**
    - **Export** - Download JSON backup
    - **Import** - Upload JSON file to restore
    - Shows progress and results
 
-4. **Clear Data**
+6. **Clear Data**
    - "Danger Zone" section
-   - Clear all bookmarks with confirmation
+   - Clear all bookmarks with confirmation (double confirmation)
    - Cannot be undone
 
 #### Export/Import Format
@@ -483,12 +758,42 @@ Users can access their bookmarks from any website, not just when watching YouTub
 - [ ] Duplicate video saves
 
 #### Footer Buttons
-- [ ] "Збережене" works on YouTube
-- [ ] "Збережене" works on non-YouTube (e.g., Google.com)
-- [ ] "Налаштування" works on YouTube
-- [ ] "Налаштування" works on non-YouTube
+- [ ] "Збережене" / "Saved" works on YouTube
+- [ ] "Збережене" / "Saved" works on non-YouTube (e.g., Google.com)
+- [ ] "Налаштування" / "Settings" works on YouTube
+- [ ] "Налаштування" / "Settings" works on non-YouTube
 - [ ] Footer visible in loading state
 - [ ] Footer visible in error state
+
+#### Internationalization (i18n) (New in v3.0.0)
+- [ ] Switch language to Ukrainian in options
+- [ ] All popup elements translated
+- [ ] All options page elements translated
+- [ ] All bookmarks viewer elements translated
+- [ ] Dynamic content localized (dropdowns, notifications, errors)
+- [ ] Switch language to English in options
+- [ ] All elements return to English
+- [ ] Language setting persists after browser restart
+- [ ] Language synced across browser profiles (if logged in)
+
+#### Theme Support (New in v3.0.0)
+- [ ] Select light theme in options
+- [ ] Light theme applied to popup
+- [ ] Light theme applied to bookmarks viewer
+- [ ] Light theme applied to options page
+- [ ] Select dark theme in options
+- [ ] Dark theme applied to all pages
+- [ ] Theme setting persists after browser restart
+- [ ] Theme synced across browser profiles (if logged in)
+
+#### Auto-Pause Feature (New in v3.0.0)
+- [ ] Enable auto-pause in options
+- [ ] Save bookmark while video is playing
+- [ ] Video pauses automatically
+- [ ] Disable auto-pause in options
+- [ ] Save bookmark while video is playing
+- [ ] Video continues playing
+- [ ] Auto-pause setting persists after browser restart
 
 ### Performance Benchmarks
 
