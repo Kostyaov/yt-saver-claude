@@ -11,13 +11,13 @@
     <!-- Header -->
     <header>
       <div class="header-content">
-        <h1>📖 Збережені закладки</h1>
+        <h1 data-i18n="bookmarks.title">📖 Збережені закладки</h1>
         <div class="header-actions">
-          <button id="refreshBtn" class="btn btn-secondary" title="Оновити список">
-            🔄 Оновити
+          <button id="refreshBtn" class="btn btn-secondary" data-i18n="bookmarks.refreshButton" data-i18n-attr="title" title="Оновити список">
+            🔄 <span data-i18n="bookmarks.refreshButton">Оновити</span>
           </button>
-          <button id="exportBtn" class="btn btn-secondary" title="Експортувати">
-            📥 Експорт
+          <button id="exportBtn" class="btn btn-secondary" data-i18n="bookmarks.exportButton" data-i18n-attr="title" title="Експортувати">
+            📥 <span data-i18n="bookmarks.exportButton">Експорт</span>
           </button>
         </div>
       </div>
@@ -25,21 +25,21 @@
       <!-- Search and Filter -->
       <div class="toolbar">
         <div class="search-box">
-          <input type="text" id="searchInput" placeholder="🔍 Пошук по назві, опису, каналу...">
+          <input type="text" id="searchInput" data-i18n="bookmarks.searchPlaceholder" data-i18n-attr="placeholder" placeholder="🔍 Пошук по назві, опису, каналу...">
         </div>
         <div class="filter-group">
-          <label for="categoryFilter">Категорія:</label>
+          <label for="categoryFilter" data-i18n="bookmarks.categoryFilter">Категорія:</label>
           <select id="categoryFilter">
-            <option value="">Всі категорії</option>
+            <option value="" data-i18n="bookmarks.allCategories">Всі категорії</option>
           </select>
         </div>
         <div class="sort-group">
-          <label for="sortSelect">Сортування:</label>
+          <label for="sortSelect" data-i18n="bookmarks.sortLabel">Сортування:</label>
           <select id="sortSelect">
-            <option value="newest">Найновіші</option>
-            <option value="oldest">Найстаріші</option>
-            <option value="title">За назвою</option>
-            <option value="category">За категорією</option>
+            <option value="newest" data-i18n="bookmarks.sortNewest">Найновіші</option>
+            <option value="oldest" data-i18n="bookmarks.sortOldest">Найстаріші</option>
+            <option value="title" data-i18n="bookmarks.sortTitle">За назвою</option>
+            <option value="category" data-i18n="bookmarks.sortCategory">За категорією</option>
           </select>
         </div>
       </div>
@@ -48,15 +48,15 @@
     <!-- Stats Bar -->
     <div class="stats-bar">
       <div class="stat-item">
-        <span class="stat-label">Всього:</span>
+        <span class="stat-label" data-i18n="bookmarks.statsTotal">Всього:</span>
         <span class="stat-value" id="totalCount">0</span>
       </div>
       <div class="stat-item">
-        <span class="stat-label">Показано:</span>
+        <span class="stat-label" data-i18n="bookmarks.statsDisplayed">Показано:</span>
         <span class="stat-value" id="displayedCount">0</span>
       </div>
       <div class="stat-item">
-        <span class="stat-label">Категорій:</span>
+        <span class="stat-label" data-i18n="bookmarks.statsCategories">Категорій:</span>
         <span class="stat-value" id="categoriesCount">0</span>
       </div>
     </div>
@@ -64,22 +64,22 @@
     <!-- Loading State -->
     <div id="loading" class="loading">
       <div class="spinner"></div>
-      <p>Завантаження закладок...</p>
+      <p data-i18n="bookmarks.loadingBookmarks">Завантаження закладок...</p>
     </div>
 
     <!-- Empty State -->
     <div id="emptyState" class="empty-state hidden">
       <div class="empty-icon">📚</div>
-      <h2>Закладок ще немає</h2>
-      <p>Збережіть свої улюблені моменти з YouTube відео</p>
-      <p class="help-text">Натисніть <strong>Ctrl+Shift+B</strong> на сторінці YouTube</p>
+      <h2 data-i18n="bookmarks.emptyStateTitle">Закладок ще немає</h2>
+      <p data-i18n="bookmarks.emptyStateDescription">Збережіть свої улюблені моменти з YouTube відео</p>
+      <p class="help-text" data-i18n="bookmarks.emptyStateHint">Натисніть <strong>Ctrl+Shift+B</strong> на сторінці YouTube</p>
     </div>
 
     <!-- No Results State -->
     <div id="noResults" class="empty-state hidden">
       <div class="empty-icon">🔍</div>
-      <h2>Нічого не знайдено</h2>
-      <p>Спробуйте змінити критерії пошуку</p>
+      <h2 data-i18n="bookmarks.noResultsTitle">Нічого не знайдено</h2>
+      <p data-i18n="bookmarks.noResultsDescription">Спробуйте змінити критерії пошуку</p>
     </div>
 
     <!-- Bookmarks List -->
@@ -91,11 +91,11 @@
   <!-- Delete Confirmation Modal -->
   <div id="deleteModal" class="modal hidden">
     <div class="modal-content">
-      <h3>Видалити закладку?</h3>
-      <p id="deleteMessage">Ви впевнені що хочете видалити цю закладку?</p>
+      <h3 data-i18n="bookmarks.confirmDeleteTitle">Видалити закладку?</h3>
+      <p id="deleteMessage" data-i18n="bookmarks.confirmDeleteMessage">Ви впевнені що хочете видалити цю закладку?</p>
       <div class="modal-actions">
-        <button id="cancelDelete" class="btn btn-secondary">Скасувати</button>
-        <button id="confirmDelete" class="btn btn-danger">Видалити</button>
+        <button id="cancelDelete" class="btn btn-secondary" data-i18n="bookmarks.confirmDeleteCancel">Скасувати</button>
+        <button id="confirmDelete" class="btn btn-danger" data-i18n="bookmarks.confirmDeleteConfirm">Видалити</button>
       </div>
     </div>
   </div>
