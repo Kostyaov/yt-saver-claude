@@ -141,11 +141,10 @@ async function handleTestConnection() {
 
     if (isConnected) {
       return {
-        message: 'IndexedDB працює успішно',
         available: true
       };
     } else {
-      throw new Error('IndexedDB не доступний');
+      throw new Error('IndexedDB unavailable');
     }
   } catch (error) {
     console.error('Connection test error:', error);

@@ -98,6 +98,9 @@
 
     "importSuccess": "Імпорт завершено успішно!",
     "importError": "Помилка імпорту:",
+    "importInvalidFile": "Невалідний JSON файл:",
+    "importTotal": "Всього:",
+    "importErrors": "Помилок:",
     "exportSuccess": "Закладки експортовано успішно!",
     "exportError": "Помилка експорту:",
 
@@ -149,7 +152,14 @@
     "confirmClearAll": "Ви впевнені що хочете видалити ВСІ закладки?\\n\\nЦя дія незворотня!\\n\\nРекомендуємо спочатку зробити експорт даних.",
     "confirmClearAllFinal": "Це остання перевірка!\\n\\nВсі ваші закладки будуть видалені назавжди.\\n\\nПродовжити?",
     "allBookmarksCleared": "Всі закладки видалено",
-    "clearError": "Помилка видалення:"
+    "clearError": "Помилка видалення:",
+
+    "dataUnavailable": "Інформація недоступна",
+    "saveError": "Помилка збереження:",
+    "deleteError": "Помилка видалення:",
+    "storageUsedText": "використано",
+    "settingsSaved": "Налаштування збережено успішно!",
+    "settingsSavedShort": "Налаштування збережено"
   },
 
   "bookmarks": {

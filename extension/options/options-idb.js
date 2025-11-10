@@ -96,11 +96,11 @@ class IndexedDBOptionsManager {
     // Check if IndexedDB is available
     if ('indexedDB' in window) {
       statusIcon.textContent = '✅';
-      statusText.textContent = 'IndexedDB доступний';
+      statusText.textContent = i18n.t('options.storageAvailable');
       statusIcon.style.color = '#4caf50';
     } else {
       statusIcon.textContent = '❌';
-      statusText.textContent = 'IndexedDB не підтримується';
+      statusText.textContent = i18n.t('options.storageUnavailable');
       statusIcon.style.color = '#f44336';
       return;
     }
@@ -120,7 +120,7 @@ class IndexedDBOptionsManager {
 
       if (response.success) {
         statusIcon.textContent = '✅';
-        statusText.textContent = response.data.message;
+        statusText.textContent = i18n.t('options.connectionSuccess');
         statusIcon.style.color = '#4caf50';
         this.showNotification(i18n.t('options.connectionSuccess'), 'success');
       } else {
@@ -197,9 +197,9 @@ class IndexedDBOptionsManager {
         const quotaElement = document.getElementById('storageQuota');
 
         if (quota) {
-          quotaElement.textContent = `${quota} MB (використано ${percentUsed}%)`;
+          quotaElement.textContent = `${quota} MB (${i18n.t('options.storageUsedText')} ${percentUsed}%)`;
         } else {
-          quotaElement.textContent = 'Інформація недоступна';
+          quotaElement.textContent = i18n.t('options.dataUnavailable');
         }
       }
     } catch (error) {
@@ -229,13 +229,13 @@ class IndexedDBOptionsManager {
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
 
-        this.showNotification('Закладки експортовано успішно!', 'success');
+        this.showNotification(i18n.t('options.exportSuccess'), 'success');
       } else {
-        this.showNotification('Помилка експорту: ' + response.error, 'error');
+        this.showNotification(i18n.t('options.exportError') + ' ' + response.error, 'error');
       }
     } catch (error) {
       console.error('Export error:', error);
-      this.showNotification('Помилка експорту: ' + error.message, 'error');
+      this.showNotification(i18n.t('options.exportError') + ' ' + error.message, 'error');
     }
   }
 
@@ -261,24 +261,24 @@ class IndexedDBOptionsManager {
         if (response.success) {
           const statusDiv = document.getElementById('importStatus');
           statusDiv.className = 'status-message success';
-          statusDiv.textContent = `✅ ${response.data.message}. Всього: ${response.data.total}, Помилок: ${response.data.errors}`;
+          statusDiv.textContent = `✅ ${i18n.t('options.importSuccess')} ${i18n.t('options.importTotal')} ${response.data.total}, ${i18n.t('options.importErrors')} ${response.data.errors}`;
           statusDiv.classList.remove('hidden');
 
           // Reload stats
           await this.loadStats();
 
-          this.showNotification('Імпорт завершено успішно!', 'success');
+          this.showNotification(i18n.t('options.importSuccess'), 'success');
 
           // Hide status after 5 seconds
           setTimeout(() => {
             statusDiv.classList.add('hidden');
           }, 5000);
         } else {
-          this.showNotification('Помилка імпорту: ' + response.error, 'error');
+          this.showNotification(i18n.t('options.importError') + ' ' + response.error, 'error');
         }
       } catch (error) {
         console.error('Import error:', error);
-        this.showNotification('Невалідний JSON файл: ' + error.message, 'error');
+        this.showNotification(i18n.t('options.importInvalidFile') + ' ' + error.message, 'error');
       }
     };
 
@@ -386,14 +386,14 @@ class IndexedDBOptionsManager {
       });
 
       if (response.success) {
-        this.showNotification('Всі закладки видалено', 'success');
+        this.showNotification(i18n.t('options.allBookmarksCleared'), 'success');
         await this.loadStats();
       } else {
-        this.showNotification('Помилка видалення: ' + response.error, 'error');
+        this.showNotification(i18n.t('options.clearError') + ' ' + response.error, 'error');
       }
     } catch (error) {
       console.error('Clear all error:', error);
-      this.showNotification('Помилка: ' + error.message, 'error');
+      this.showNotification(i18n.t('common.error') + ': ' + error.message, 'error');
     }
   }
 
@@ -483,11 +483,11 @@ class IndexedDBOptionsManager {
       }
 
       // Show success message
-      statusDiv.textContent = '✅ Налаштування збережено успішно!';
+      statusDiv.textContent = '✅ ' + i18n.t('options.settingsSaved');
       statusDiv.className = 'status-message success';
       statusDiv.classList.remove('hidden');
 
-      this.showNotification('Налаштування збережено', 'success');
+      this.showNotification(i18n.t('options.settingsSavedShort'), 'success');
 
       // Hide message after 3 seconds
       setTimeout(() => {
@@ -496,15 +496,15 @@ class IndexedDBOptionsManager {
 
     } catch (error) {
       console.error('Error saving settings:', error);
-      statusDiv.textContent = '❌ Помилка збереження: ' + error.message;
+      statusDiv.textContent = '❌ ' + i18n.t('options.saveError') + ' ' + error.message;
       statusDiv.className = 'status-message error';
       statusDiv.classList.remove('hidden');
 
-      this.showNotification('Помилка збереження: ' + error.message, 'error');
+      this.showNotification(i18n.t('options.saveError') + ' ' + error.message, 'error');
     } finally {
       // Re-enable button (unless page is reloading due to language change)
       saveBtn.disabled = false;
-      saveBtn.textContent = '💾 Зберегти налаштування';
+      saveBtn.textContent = i18n.t('options.saveSettingsButton');
     }
   }
 

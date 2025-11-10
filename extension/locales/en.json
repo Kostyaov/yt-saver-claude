@@ -98,6 +98,9 @@
 
     "importSuccess": "Import completed successfully!",
     "importError": "Import error:",
+    "importInvalidFile": "Invalid JSON file:",
+    "importTotal": "Total:",
+    "importErrors": "Errors:",
     "exportSuccess": "Bookmarks exported successfully!",
     "exportError": "Export error:",
 
@@ -149,7 +152,14 @@
     "confirmClearAll": "Are you sure you want to delete ALL bookmarks?\\n\\nThis action is irreversible!\\n\\nWe recommend exporting your data first.",
     "confirmClearAllFinal": "This is the final check!\\n\\nAll your bookmarks will be deleted forever.\\n\\nContinue?",
     "allBookmarksCleared": "All bookmarks cleared",
-    "clearError": "Delete error:"
+    "clearError": "Delete error:",
+
+    "dataUnavailable": "Information unavailable",
+    "saveError": "Save error:",
+    "deleteError": "Delete error:",
+    "storageUsedText": "used",
+    "settingsSaved": "Settings saved successfully!",
+    "settingsSavedShort": "Settings saved"
   },
 
   "bookmarks": {
