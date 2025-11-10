@@ -13,6 +13,9 @@ class BookmarkPopup {
     // Setup event listeners first (so footer buttons always work)
     this.setupEventListeners();
 
+    // Load and apply theme from settings
+    await this.loadTheme();
+
     // Load themes from storage
     await this.loadThemes();
 
@@ -294,6 +297,21 @@ class BookmarkPopup {
     } catch (error) {
       // Silently fail - auto-pause is optional feature
       console.log('Auto-pause not available:', error.message);
+    }
+  }
+
+  async loadTheme() {
+    try {
+      // Load theme from settings
+      const result = await chrome.storage.sync.get(['theme']);
+      const theme = result.theme || 'light';
+
+      // Apply theme to body
+      document.body.setAttribute('data-theme', theme);
+    } catch (error) {
+      console.log('Error loading theme:', error);
+      // Default to light theme
+      document.body.setAttribute('data-theme', 'light');
     }
   }
 }

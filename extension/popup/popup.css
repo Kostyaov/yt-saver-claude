@@ -1,3 +1,68 @@
+/* CSS Variables for Theme Support */
+:root {
+  /* Light Theme (Default) */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f5;
+  --bg-tertiary: #f8f9fa;
+  --bg-hover: #f0f0f0;
+  --bg-hover-light: #ffe6e6;
+
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --text-tertiary: #999999;
+  --text-heading: #1a1a1a;
+  --text-label: #555555;
+
+  --border-color: #e0e0e0;
+  --border-color-light: #dddddd;
+
+  --accent-color: #ff0000;
+  --accent-hover: #cc0000;
+  --accent-active: #b30000;
+
+  --error-bg: #f8d7da;
+  --error-text: #721c24;
+  --error-border: #f5c6cb;
+
+  --success-bg: #d4edda;
+  --success-text: #155724;
+  --success-border: #c3e6cb;
+
+  --spinner-bg: #f3f3f3;
+}
+
+/* Dark Theme */
+body[data-theme="dark"] {
+  --bg-primary: #1e1e1e;
+  --bg-secondary: #121212;
+  --bg-tertiary: #2a2a2a;
+  --bg-hover: #333333;
+  --bg-hover-light: #3a1515;
+
+  --text-primary: #e0e0e0;
+  --text-secondary: #b0b0b0;
+  --text-tertiary: #808080;
+  --text-heading: #f5f5f5;
+  --text-label: #c0c0c0;
+
+  --border-color: #404040;
+  --border-color-light: #4a4a4a;
+
+  --accent-color: #ff4444;
+  --accent-hover: #ff6666;
+  --accent-active: #ff2222;
+
+  --error-bg: #4a2a2a;
+  --error-text: #ffaaaa;
+  --error-border: #6a3a3a;
+
+  --success-bg: #2a4a2a;
+  --success-text: #aaffaa;
+  --success-border: #3a6a3a;
+
+  --spinner-bg: #333333;
+}
+
 /* Global Styles */
 * {
   margin: 0;
@@ -9,14 +74,14 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   font-size: 14px;
   line-height: 1.5;
-  color: #333;
-  background: #f5f5f5;
+  color: var(--text-primary);
+  background: var(--bg-secondary);
   width: 400px;
   min-height: 300px;
 }
 
 .container {
-  background: white;
+  background: var(--bg-primary);
   padding: 16px;
 }
 
@@ -24,13 +89,13 @@ body {
 header {
   margin-bottom: 16px;
   padding-bottom: 12px;
-  border-bottom: 2px solid #e0e0e0;
+  border-bottom: 2px solid var(--border-color);
 }
 
 header h1 {
   font-size: 18px;
   font-weight: 600;
-  color: #1a1a1a;
+  color: var(--text-heading);
 }
 
 
@@ -46,8 +111,8 @@ header h1 {
 .spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #ff0000;
+  border: 4px solid var(--spinner-bg);
+  border-top: 4px solid var(--accent-color);
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 16px;
@@ -65,19 +130,19 @@ header h1 {
 }
 
 .error p {
-  color: #d32f2f;
+  color: var(--error-text);
   margin-bottom: 12px;
 }
 
 .error-hint {
-  color: #666 !important;
+  color: var(--text-secondary) !important;
   font-size: 12px;
   margin-top: 8px;
 }
 
 /* Video Info */
 .video-info {
-  background: #f8f9fa;
+  background: var(--bg-tertiary);
   padding: 12px;
   border-radius: 8px;
   margin-bottom: 16px;
@@ -87,7 +152,7 @@ header h1 {
   font-size: 14px;
   font-weight: 600;
   margin-bottom: 6px;
-  color: #1a1a1a;
+  color: var(--text-heading);
   line-height: 1.4;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -97,7 +162,7 @@ header h1 {
 
 .video-meta {
   font-size: 12px;
-  color: #666;
+  color: var(--text-secondary);
 }
 
 /* Form Styles */
@@ -109,7 +174,7 @@ header h1 {
   display: block;
   font-weight: 500;
   margin-bottom: 6px;
-  color: #555;
+  color: var(--text-label);
   font-size: 13px;
 }
 
@@ -118,10 +183,12 @@ header h1 {
 .form-group textarea {
   width: 100%;
   padding: 8px 12px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color-light);
   border-radius: 6px;
   font-size: 14px;
   font-family: inherit;
+  background: var(--bg-primary);
+  color: var(--text-primary);
   transition: border-color 0.2s;
 }
 
@@ -129,7 +196,7 @@ header h1 {
 .form-group input[type="text"]:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #ff0000;
+  border-color: var(--accent-color);
 }
 
 /* Theme Input Group */
@@ -146,13 +213,13 @@ header h1 {
 .btn-icon {
   width: 36px;
   height: 36px;
-  border: 1px solid #ddd;
-  background: white;
+  border: 1px solid var(--border-color-light);
+  background: var(--bg-primary);
   border-radius: 6px;
   cursor: pointer;
   font-size: 18px;
   font-weight: bold;
-  color: #666;
+  color: var(--text-secondary);
   transition: all 0.2s;
   display: flex;
   align-items: center;
@@ -160,8 +227,8 @@ header h1 {
 }
 
 .btn-icon:hover {
-  background: #f5f5f5;
-  border-color: #999;
+  background: var(--bg-secondary);
+  border-color: var(--text-tertiary);
 }
 
 /* Radio Group */
@@ -184,17 +251,18 @@ header h1 {
 
 /* Timestamp Display */
 .timestamp-display {
-  background: #f0f0f0;
+  background: var(--bg-hover);
   padding: 10px 12px;
   border-radius: 6px;
   font-family: 'Courier New', monospace;
   font-size: 16px;
   font-weight: 600;
+  color: var(--text-primary);
 }
 
 .timestamp-seconds {
   font-size: 12px;
-  color: #666;
+  color: var(--text-secondary);
   margin-left: 8px;
   font-weight: normal;
 }
@@ -208,17 +276,17 @@ textarea {
 .char-counter {
   text-align: right;
   font-size: 11px;
-  color: #999;
+  color: var(--text-tertiary);
   margin-top: 4px;
 }
 
 /* Auto Description */
 .auto-description {
-  background: #f8f9fa;
+  background: var(--bg-tertiary);
   padding: 10px;
   border-radius: 6px;
   font-size: 12px;
-  color: #666;
+  color: var(--text-secondary);
   max-height: 80px;
   overflow-y: auto;
   line-height: 1.6;
@@ -243,25 +311,25 @@ textarea {
 }
 
 .btn-primary {
-  background: #ff0000;
+  background: var(--accent-color);
   color: white;
 }
 
 .btn-primary:hover {
-  background: #cc0000;
+  background: var(--accent-hover);
 }
 
 .btn-primary:active {
-  background: #b30000;
+  background: var(--accent-active);
 }
 
 .btn-secondary {
-  background: #f0f0f0;
-  color: #333;
+  background: var(--bg-hover);
+  color: var(--text-primary);
 }
 
 .btn-secondary:hover {
-  background: #e0e0e0;
+  background: var(--border-color);
 }
 
 .btn-small {
@@ -279,22 +347,22 @@ textarea {
 }
 
 .status-message.success {
-  background: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
+  background: var(--success-bg);
+  color: var(--success-text);
+  border: 1px solid var(--success-border);
 }
 
 .status-message.error {
-  background: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
+  background: var(--error-bg);
+  color: var(--error-text);
+  border: 1px solid var(--error-border);
 }
 
 /* Footer */
 .footer {
   margin-top: 16px;
   padding-top: 12px;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid var(--border-color);
   display: flex !important;
   gap: 12px;
   justify-content: center;
@@ -304,21 +372,21 @@ textarea {
 }
 
 .footer-link {
-  color: #666;
+  color: var(--text-secondary);
   text-decoration: none;
   font-size: 13px;
   font-weight: 500;
   padding: 8px 16px;
   border-radius: 6px;
-  background: #f5f5f5;
+  background: var(--bg-secondary);
   transition: all 0.2s;
   display: inline-block;
   white-space: nowrap;
 }
 
 .footer-link:hover {
-  color: #ff0000;
-  background: #ffe6e6;
+  color: var(--accent-color);
+  background: var(--bg-hover-light);
   transform: translateY(-1px);
 }
 

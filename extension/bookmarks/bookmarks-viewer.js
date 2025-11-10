@@ -12,6 +12,9 @@ class BookmarksViewer {
   }
 
   async init() {
+    // Load and apply theme from settings
+    await this.loadTheme();
+
     // Setup event listeners
     this.setupEventListeners();
 
@@ -367,6 +370,21 @@ class BookmarksViewer {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
+  }
+
+  async loadTheme() {
+    try {
+      // Load theme from settings
+      const result = await chrome.storage.sync.get(['theme']);
+      const theme = result.theme || 'light';
+
+      // Apply theme to body
+      document.body.setAttribute('data-theme', theme);
+    } catch (error) {
+      console.log('Error loading theme:', error);
+      // Default to light theme
+      document.body.setAttribute('data-theme', 'light');
+    }
   }
 }
 
