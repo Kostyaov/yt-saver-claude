@@ -172,6 +172,8 @@
     "statsCategories": "Categories:",
 
     "loadingBookmarks": "Loading bookmarks...",
+    "loadingError": "Error loading bookmarks",
+    "loadError": "Loading error:",
 
     "emptyStateTitle": "No bookmarks yet",
     "emptyStateDescription": "Save your favorite moments from YouTube videos",
@@ -186,6 +188,7 @@
 
     "confirmDeleteTitle": "Delete bookmark?",
     "confirmDeleteMessage": "Are you sure you want to delete this bookmark?",
+    "confirmDeleteWithTitle": "Are you sure you want to delete bookmark",
     "confirmDeleteCancel": "Cancel",
     "confirmDeleteConfirm": "Delete",
 

@@ -122,16 +122,16 @@ class IndexedDBOptionsManager {
         statusIcon.textContent = '✅';
         statusText.textContent = response.data.message;
         statusIcon.style.color = '#4caf50';
-        this.showNotification('IndexedDB працює успішно!', 'success');
+        this.showNotification(i18n.t('options.connectionSuccess'), 'success');
       } else {
         statusIcon.textContent = '❌';
-        statusText.textContent = 'Помилка: ' + response.error;
+        statusText.textContent = i18n.t('options.connectionError') + ' ' + response.error;
         statusIcon.style.color = '#f44336';
-        this.showNotification('Помилка з\'єднання: ' + response.error, 'error');
+        this.showNotification(i18n.t('options.connectionError') + ' ' + response.error, 'error');
       }
     } catch (error) {
       console.error('Test connection error:', error);
-      this.showNotification('Помилка перевірки: ' + error.message, 'error');
+      this.showNotification(i18n.t('options.connectionError') + ' ' + error.message, 'error');
     }
   }
 

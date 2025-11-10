@@ -109,20 +109,20 @@ class BookmarksViewer {
           this.filterAndSort();
         }
       } else {
-        throw new Error(response.error || 'Помилка завантаження закладок');
+        throw new Error(response.error || i18n.t('bookmarks.loadingError'));
       }
     } catch (error) {
       console.error('Error loading bookmarks:', error);
       loading.classList.add('hidden');
-      this.showToast('Помилка завантаження: ' + error.message, 'error');
+      this.showToast(i18n.t('bookmarks.loadError') + ' ' + error.message, 'error');
     }
   }
 
   populateCategoryFilter() {
     const categoryFilter = document.getElementById('categoryFilter');
 
-    // Clear existing options (except "Всі категорії")
-    categoryFilter.innerHTML = '<option value="">Всі категорії</option>';
+    // Clear existing options and add "All Categories" with i18n
+    categoryFilter.innerHTML = `<option value="">${i18n.t('bookmarks.allCategories')}</option>`;
 
     // Add categories
     const sortedCategories = Array.from(this.categories).sort();
@@ -255,7 +255,7 @@ class BookmarksViewer {
             ${this.escapeHtml(watchUrl)}
           </a>
         </div>
-        <button class="delete-bookmark-btn" data-bookmark-id="${bookmark.id}" title="Видалити">
+        <button class="delete-bookmark-btn" data-bookmark-id="${bookmark.id}" title="${i18n.t('bookmarks.deleteButton')}">
           🗑️
         </button>
       </div>
@@ -277,7 +277,7 @@ class BookmarksViewer {
     const modal = document.getElementById('deleteModal');
     const message = document.getElementById('deleteMessage');
 
-    message.textContent = `Ви впевнені що хочете видалити закладку "${bookmark.title}"?`;
+    message.textContent = `${i18n.t('bookmarks.confirmDeleteWithTitle')} "${bookmark.title}"?`;
     modal.classList.remove('hidden');
   }
 
@@ -297,7 +297,7 @@ class BookmarksViewer {
       });
 
       if (response.success) {
-        this.showToast('Закладку видалено', 'success');
+        this.showToast(i18n.t('bookmarks.deleteSuccess'), 'success');
 
         // Remove from local arrays
         this.bookmarks = this.bookmarks.filter(b => b.id !== this.bookmarkToDelete);
@@ -305,11 +305,11 @@ class BookmarksViewer {
         // Reload to update everything
         await this.loadBookmarks();
       } else {
-        throw new Error(response.error || 'Помилка видалення');
+        throw new Error(response.error || i18n.t('bookmarks.deleteError'));
       }
     } catch (error) {
       console.error('Error deleting bookmark:', error);
-      this.showToast('Помилка: ' + error.message, 'error');
+      this.showToast(i18n.t('common.error') + ': ' + error.message, 'error');
     } finally {
       this.hideDeleteModal();
     }
@@ -336,13 +336,13 @@ class BookmarksViewer {
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
 
-        this.showToast('Експорт успішний!', 'success');
+        this.showToast(i18n.t('bookmarks.exportSuccess'), 'success');
       } else {
-        throw new Error(response.error || 'Помилка експорту');
+        throw new Error(response.error || i18n.t('bookmarks.exportError'));
       }
     } catch (error) {
       console.error('Error exporting:', error);
-      this.showToast('Помилка експорту: ' + error.message, 'error');
+      this.showToast(i18n.t('bookmarks.exportError') + ' ' + error.message, 'error');
     }
   }
 

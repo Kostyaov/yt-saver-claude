@@ -172,6 +172,8 @@
     "statsCategories": "Категорій:",
 
     "loadingBookmarks": "Завантаження закладок...",
+    "loadingError": "Помилка завантаження закладок",
+    "loadError": "Помилка завантаження:",
 
     "emptyStateTitle": "Закладок ще немає",
     "emptyStateDescription": "Збережіть свої улюблені моменти з YouTube відео",
@@ -186,6 +188,7 @@
 
     "confirmDeleteTitle": "Видалити закладку?",
     "confirmDeleteMessage": "Ви впевнені що хочете видалити цю закладку?",
+    "confirmDeleteWithTitle": "Ви впевнені що хочете видалити закладку",
     "confirmDeleteCancel": "Скасувати",
     "confirmDeleteConfirm": "Видалити",
 

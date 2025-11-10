@@ -46,7 +46,7 @@ class BookmarkPopup {
 
   populateThemeSelect() {
     const select = document.getElementById('themeSelect');
-    select.innerHTML = '<option value="">Виберіть тему...</option>';
+    select.innerHTML = `<option value="">${i18n.t('popup.themeSelectPlaceholder')}</option>`;
 
     this.themes.forEach(theme => {
       const option = document.createElement('option');
