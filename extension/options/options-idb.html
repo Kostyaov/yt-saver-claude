@@ -9,71 +9,71 @@
 <body>
   <div class="container">
     <header>
-      <h1>💾 YouTube Bookmarks Saver (Local Storage)</h1>
-      <p class="subtitle">Налаштування розширення - IndexedDB</p>
+      <h1 data-i18n="options.title">💾 YouTube Bookmarks Saver (Local Storage)</h1>
+      <p class="subtitle" data-i18n="options.subtitle">Налаштування розширення - IndexedDB</p>
     </header>
 
     <main>
       <!-- IndexedDB Status -->
       <section class="section">
-        <h2>💾 Статус IndexedDB</h2>
+        <h2 data-i18n="options.storageSection">💾 Статус IndexedDB</h2>
         <div class="section-content">
           <div id="idbStatus" class="status-box">
             <div class="status-indicator">
               <span id="idbStatusIcon" class="status-icon">⏳</span>
-              <span id="idbStatusText">Перевірка...</span>
+              <span id="idbStatusText" data-i18n="options.testingConnection">Перевірка...</span>
             </div>
           </div>
 
           <div class="button-group">
-            <button id="testConnectionBtn" class="btn btn-primary">Перевірити IndexedDB</button>
+            <button id="testConnectionBtn" class="btn btn-primary" data-i18n="options.testConnectionButton">Перевірити IndexedDB</button>
           </div>
 
           <div class="info-box">
-            <h4>ℹ️ Інформація про сховище:</h4>
-            <p><strong>Тип сховища:</strong> <span id="storageType">IndexedDB (Local)</span></p>
-            <p><strong>База даних:</strong> <span id="dbName">youtube-bookmarks</span></p>
-            <p><strong>Використано:</strong> <span id="storageUsed">0 KB</span></p>
-            <p><strong>Квота:</strong> <span id="storageQuota">Обчислюється...</span></p>
+            <h4>ℹ️ <span data-i18n="options.storageInfo">Інформація про сховище:</span></h4>
+            <p><strong data-i18n="options.storageType">Тип сховища:</strong> <span id="storageType">IndexedDB (Local)</span></p>
+            <p><strong data-i18n="options.database">База даних:</strong> <span id="dbName">youtube-bookmarks</span></p>
+            <p><strong data-i18n="options.storageUsed">Використано:</strong> <span id="storageUsed">0 KB</span></p>
+            <p><strong data-i18n="options.storageQuota">Квота:</strong> <span id="storageQuota" data-i18n="options.calculating">Обчислюється...</span></p>
           </div>
         </div>
       </section>
 
       <!-- General Settings -->
       <section class="section">
-        <h2>⚙️ Основні налаштування</h2>
+        <h2 data-i18n="options.generalSettings">⚙️ Основні налаштування</h2>
         <div class="section-content">
           <!-- Theme Selection -->
           <div class="form-group">
-            <label for="themeSelect">🎨 Вигляд додатку:</label>
+            <label for="themeSelect" data-i18n="options.themeAppearance">🎨 Вигляд додатку:</label>
             <select id="themeSelect" class="select-input">
-              <option value="light">☀️ Світла тема</option>
-              <option value="dark">🌙 Темна тема</option>
+              <option value="light" data-i18n="options.themeLight">☀️ Світла тема</option>
+              <option value="dark" data-i18n="options.themeDark">🌙 Темна тема</option>
             </select>
-            <p class="help-text">Виберіть кольорову схему інтерфейсу</p>
+            <p class="help-text" data-i18n="options.themeHelpText">Виберіть кольорову схему інтерфейсу</p>
           </div>
 
           <!-- Language Selection -->
           <div class="form-group">
-            <label for="languageSelect">🌐 Мова додатку:</label>
+            <label for="languageSelect" data-i18n="options.languageLabel">🌐 Мова додатку:</label>
             <select id="languageSelect" class="select-input">
-              <option value="en">English (Англійська)</option>
-              <option value="uk">Українська</option>
+              <option value="en" data-i18n="options.languageEnglish">English (Англійська)</option>
+              <option value="uk" data-i18n="options.languageUkrainian">Українська</option>
             </select>
-            <p class="help-text">Мова інтерфейсу розширення</p>
+            <p class="help-text" data-i18n="options.languageHelpText">Мова інтерфейсу розширення</p>
           </div>
 
           <!-- Auto Pause Video -->
           <div class="form-group">
             <label class="checkbox-label">
               <input type="checkbox" id="autoPauseCheckbox">
-              <span>⏸️ Автоматична пауза відео</span>
+              <span data-i18n="options.autoPauseLabel">⏸️ Автоматична пауза відео</span>
             </label>
-            <p class="help-text">Автоматично ставити відео на паузу при відкритті вікна збереження закладки</p>
+            <p class="help-text" data-i18n="options.autoPauseHelpText">Автоматично ставити відео на паузу при відкритті вікна збереження закладки</p>
           </div>
 
           <div class="button-group">
-            <button id="saveSettingsBtn" class="btn btn-primary">💾 Зберегти налаштування</button>
+            <button id="saveSettingsBtn" class="btn btn-primary" data-i18n="options.saveSettingsButton">💾 Зберегти налаштування</button>
           </div>
 
           <div id="settingsSaveStatus" class="status-message hidden"></div>
@@ -82,25 +82,25 @@
 
       <!-- Statistics -->
       <section class="section">
-        <h2>📊 Статистика</h2>
+        <h2 data-i18n="options.statisticsSection">📊 Статистика</h2>
         <div class="section-content">
           <div id="statsBox" class="stats-grid">
             <div class="stat-card">
               <div class="stat-value" id="totalBookmarks">-</div>
-              <div class="stat-label">Всього закладок</div>
+              <div class="stat-label" data-i18n="options.totalBookmarks">Всього закладок</div>
             </div>
             <div class="stat-card">
               <div class="stat-value" id="totalCategories">-</div>
-              <div class="stat-label">Категорій</div>
+              <div class="stat-label" data-i18n="options.totalCategories">Категорій</div>
             </div>
           </div>
 
           <div class="button-group">
-            <button id="refreshStatsBtn" class="btn btn-secondary">Оновити статистику</button>
+            <button id="refreshStatsBtn" class="btn btn-secondary" data-i18n="options.refreshStatsButton">Оновити статистику</button>
           </div>
 
           <div id="categoryStats" class="category-stats" style="margin-top: 16px;">
-            <h4>Закладок по категоріях:</h4>
+            <h4 data-i18n="options.categoriesBreakdown">Закладок по категоріях:</h4>
             <ul id="categoryList" class="list"></ul>
           </div>
         </div>
@@ -108,28 +108,28 @@
 
       <!-- Export / Import -->
       <section class="section">
-        <h2>📤 Експорт / Імпорт</h2>
+        <h2 data-i18n="options.dataManagement">📤 Експорт / Імпорт</h2>
         <div class="section-content">
           <div class="info-box" style="background: #e3f2fd; border-left-color: #2196f3;">
-            <h4>💡 Резервне копіювання</h4>
-            <p>Експортуйте ваші закладки в JSON файл для резервного копіювання або переносу на інший пристрій.</p>
+            <h4>💡 <span data-i18n="options.backupTitle">Резервне копіювання</span></h4>
+            <p data-i18n="options.backupDescription">Експортуйте ваші закладки в JSON файл для резервного копіювання або переносу на інший пристрій.</p>
           </div>
 
           <div class="export-section" style="margin-top: 16px;">
-            <h3>Експорт даних</h3>
+            <h3 data-i18n="options.exportTitle">Експорт даних</h3>
             <div class="button-group">
-              <button id="exportBtn" class="btn btn-primary">📥 Експортувати всі закладки</button>
+              <button id="exportBtn" class="btn btn-primary" data-i18n="options.exportButton">📥 Експортувати всі закладки</button>
             </div>
-            <p class="help-text">Завантажить JSON файл з усіма вашими закладками</p>
+            <p class="help-text" data-i18n="options.exportHelpText">Завантажить JSON файл з усіма вашими закладками</p>
           </div>
 
           <div class="import-section" style="margin-top: 24px;">
-            <h3>Імпорт даних</h3>
+            <h3 data-i18n="options.importTitle">Імпорт даних</h3>
             <div class="file-input-group">
               <input type="file" id="importFileInput" accept=".json" style="display: none;">
-              <button id="importBtn" class="btn btn-secondary">📤 Імпортувати закладки</button>
+              <button id="importBtn" class="btn btn-secondary" data-i18n="options.importButton">📤 Імпортувати закладки</button>
             </div>
-            <p class="help-text">Виберіть JSON файл з експортованими закладками</p>
+            <p class="help-text" data-i18n="options.importHelpText">Виберіть JSON файл з експортованими закладками</p>
             <div id="importStatus" class="status-message hidden"></div>
           </div>
         </div>
@@ -137,24 +137,26 @@
 
       <!-- Themes Management -->
       <section class="section">
-        <h2>🏷️ Управління темами</h2>
+        <h2 data-i18n="options.themesSection">🏷️ Управління темами</h2>
         <div class="section-content">
           <div class="form-group">
-            <label for="newThemeInput">Додати нову тему:</label>
+            <label for="newThemeInput" data-i18n="options.addNewTheme">Додати нову тему:</label>
             <div class="input-group">
               <input
                 type="text"
                 id="newThemeInput"
+                data-i18n="options.newThemePlaceholder"
+                data-i18n-attr="placeholder"
                 placeholder="Назва теми (наприклад: Python, Arduino...)"
               >
-              <button id="addThemeBtn" class="btn btn-primary">Додати</button>
+              <button id="addThemeBtn" class="btn btn-primary" data-i18n="options.addThemeButton">Додати</button>
             </div>
           </div>
 
           <div class="themes-list">
-            <h4>Існуючі теми:</h4>
+            <h4 data-i18n="options.existingThemes">Існуючі теми:</h4>
             <ul id="themesList" class="list">
-              <li class="list-item loading">Завантаження...</li>
+              <li class="list-item loading" data-i18n="common.loading">Завантаження...</li>
             </ul>
           </div>
         </div>
@@ -162,63 +164,63 @@
 
       <!-- Danger Zone -->
       <section class="section danger-zone">
-        <h2>⚠️ Небезпечна зона</h2>
+        <h2 data-i18n="options.dangerZone">⚠️ Небезпечна зона</h2>
         <div class="section-content">
           <div class="info-box" style="background: #ffebee; border-left-color: #f44336;">
-            <h4>⚠️ Увага!</h4>
-            <p>Видалення всіх закладок <strong>незворотнє</strong>. Спочатку зробіть експорт даних!</p>
+            <h4>⚠️ <span data-i18n="options.warningTitle">Увага!</span></h4>
+            <p data-i18n="options.warningText">Видалення всіх закладок <strong>незворотнє</strong>. Спочатку зробіть експорт даних!</p>
           </div>
 
           <div class="button-group">
-            <button id="clearAllBtn" class="btn btn-danger">🗑️ Видалити всі закладки</button>
+            <button id="clearAllBtn" class="btn btn-danger" data-i18n="options.clearAllButton">🗑️ Видалити всі закладки</button>
           </div>
         </div>
       </section>
 
       <!-- Keyboard Shortcuts -->
       <section class="section">
-        <h2>⌨️ Клавіатурні скорочення</h2>
+        <h2 data-i18n="options.keyboardShortcuts">⌨️ Клавіатурні скорочення</h2>
         <div class="section-content">
           <div class="shortcut-info">
             <div class="shortcut-item">
-              <span class="shortcut-label">Зберегти закладку:</span>
+              <span class="shortcut-label" data-i18n="options.saveShortcutLabel">Зберегти закладку:</span>
               <span class="shortcut-key">Ctrl+Shift+B</span>
               <span class="shortcut-key-mac">(⌘+Shift+B на Mac)</span>
             </div>
           </div>
 
           <div class="info-box">
-            <p>Натисніть комбінацію клавіш під час перегляду відео на YouTube, щоб відкрити вікно збереження закладки.</p>
-            <p>Для зміни клавіатурних скорочень перейдіть до <code>chrome://extensions/shortcuts</code></p>
+            <p data-i18n="options.shortcutDescription">Натисніть комбінацію клавіш під час перегляду відео на YouTube, щоб відкрити вікно збереження закладки.</p>
+            <p data-i18n="options.changeShortcutHint">Для зміни клавіатурних скорочень перейдіть до <code>chrome://extensions/shortcuts</code></p>
           </div>
         </div>
       </section>
 
       <!-- About -->
       <section class="section">
-        <h2>ℹ️ Про розширення</h2>
+        <h2 data-i18n="options.aboutSection">ℹ️ Про розширення</h2>
         <div class="section-content">
           <div class="info-box">
-            <p><strong>Версія:</strong> 3.0.0 (IndexedDB / Local)</p>
-            <p><strong>Сховище:</strong> IndexedDB (Browser Local Storage)</p>
-            <p><strong>Опис:</strong> Розширення для збереження улюблених моментів з YouTube в локальне сховище браузера.</p>
+            <p><strong data-i18n="options.versionLabel">Версія:</strong> 3.0.0 (IndexedDB / Local)</p>
+            <p><strong data-i18n="options.storageLabel">Сховище:</strong> IndexedDB (Browser Local Storage)</p>
+            <p><strong data-i18n="options.descriptionLabel">Опис:</strong> <span data-i18n="options.appDescription">Розширення для збереження улюблених моментів з YouTube в локальне сховище браузера.</span></p>
           </div>
 
-          <h4>Переваги Local версії:</h4>
+          <h4 data-i18n="options.advantagesTitle">Переваги Local версії:</h4>
           <ul class="feature-list">
-            <li>💾 <strong>Локальне збереження</strong> - все на вашому пристрої</li>
-            <li>⚡ <strong>Швидше</strong> - немає мережевих запитів</li>
-            <li>🔒 <strong>Приватно</strong> - дані не покидають браузер</li>
-            <li>📴 <strong>Offline</strong> - працює без інтернету</li>
-            <li>💰 <strong>Безкоштовно</strong> - не потрібні зовнішні сервіси</li>
-            <li>📤 <strong>Експорт/Імпорт</strong> - легко переносити дані</li>
+            <li>💾 <strong data-i18n="options.advantageLocal">Локальне збереження</strong> - <span data-i18n="options.advantageLocalDesc">все на вашому пристрої</span></li>
+            <li>⚡ <strong data-i18n="options.advantageFast">Швидше</strong> - <span data-i18n="options.advantageFastDesc">немає мережевих запитів</span></li>
+            <li>🔒 <strong data-i18n="options.advantagePrivate">Приватно</strong> - <span data-i18n="options.advantagePrivateDesc">дані не покидають браузер</span></li>
+            <li>📴 <strong data-i18n="options.advantageOffline">Offline</strong> - <span data-i18n="options.advantageOfflineDesc">працює без інтернету</span></li>
+            <li>💰 <strong data-i18n="options.advantageFree">Безкоштовно</strong> - <span data-i18n="options.advantageFreeDesc">не потрібні зовнішні сервіси</span></li>
+            <li>📤 <strong data-i18n="options.advantageExport">Експорт/Імпорт</strong> - <span data-i18n="options.advantageExportDesc">легко переносити дані</span></li>
           </ul>
 
-          <h4>Структура даних:</h4>
+          <h4 data-i18n="options.dataStructureTitle">Структура даних:</h4>
           <ul class="feature-list">
             <li><strong>Database:</strong> youtube-bookmarks (IndexedDB)</li>
             <li><strong>Object Store:</strong> bookmarks</li>
-            <li><strong>Поля:</strong> title, watchUrl, description, category, channelUrl, currentTime, createdAt</li>
+            <li><strong data-i18n="options.fieldsLabel">Поля:</strong> title, watchUrl, description, category, channelUrl, currentTime, createdAt</li>
           </ul>
         </div>
       </section>
