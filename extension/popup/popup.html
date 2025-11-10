@@ -9,17 +9,17 @@
 <body>
   <div class="container">
     <header>
-      <h1>📚 YouTube Bookmarks</h1>
+      <h1 data-i18n="popup.title">📚 YouTube Bookmarks</h1>
     </header>
 
     <div id="loading" class="loading hidden">
       <div class="spinner"></div>
-      <p>Завантаження інформації про відео...</p>
+      <p data-i18n="popup.loading">Завантаження інформації про відео...</p>
     </div>
 
     <div id="error" class="error hidden">
       <p id="errorMessage"></p>
-      <p class="error-hint">Ви можете переглянути збережені закладки через кнопку "Збережене" внизу.</p>
+      <p class="error-hint" data-i18n="popup.errorHint">Ви можете переглянути збережені закладки через кнопку "Збережене" внизу.</p>
     </div>
 
     <div id="mainContent" class="hidden">
@@ -36,40 +36,42 @@
       <form id="bookmarkForm">
         <!-- Theme Selection -->
         <div class="form-group">
-          <label for="themeSelect">Тема:</label>
+          <label for="themeSelect" data-i18n="popup.themeLabel">Тема:</label>
           <div class="theme-input-group">
             <select id="themeSelect" required>
-              <option value="">Виберіть тему...</option>
+              <option value="" data-i18n="popup.themeSelectPlaceholder">Виберіть тему...</option>
             </select>
-            <button type="button" id="addThemeBtn" class="btn-icon" title="Додати нову тему">+</button>
+            <button type="button" id="addThemeBtn" class="btn-icon" data-i18n="popup.themeAddButton" data-i18n-attr="title" title="Додати нову тему">+</button>
           </div>
         </div>
 
         <!-- New Theme Input (hidden by default) -->
         <div id="newThemeGroup" class="form-group hidden">
-          <label for="newThemeInput">Нова тема:</label>
+          <label for="newThemeInput" data-i18n="popup.newThemeLabel">Нова тема:</label>
           <div class="theme-input-group">
-            <input type="text" id="newThemeInput" placeholder="Введіть назву теми...">
-            <button type="button" id="addNewThemeBtn" class="btn btn-primary btn-small" title="Додати тему">Додати</button>
-            <button type="button" id="cancelThemeBtn" class="btn-icon" title="Скасувати">×</button>
+            <input type="text" id="newThemeInput" data-i18n="popup.newThemePlaceholder" data-i18n-attr="placeholder" placeholder="Введіть назву теми...">
+            <button type="button" id="addNewThemeBtn" class="btn btn-primary btn-small" data-i18n="popup.themeAddBtn" title="Додати тему">Додати</button>
+            <button type="button" id="cancelThemeBtn" class="btn-icon" data-i18n="popup.themeCancelBtn" data-i18n-attr="title" title="Скасувати">×</button>
           </div>
         </div>
 
         <!-- Timestamp Display -->
         <div class="form-group">
-          <label>Поточний час:</label>
+          <label data-i18n="popup.currentTimeLabel">Поточний час:</label>
           <div class="timestamp-display">
             <span id="currentTimestamp">0:00</span>
-            <span class="timestamp-seconds" id="currentTimestampSeconds">(0 сек)</span>
+            <span class="timestamp-seconds" id="currentTimestampSeconds">(0 <span data-i18n="popup.seconds">сек</span>)</span>
           </div>
         </div>
 
         <!-- Description -->
         <div class="form-group">
-          <label for="description">Опис:</label>
+          <label for="description" data-i18n="popup.descriptionLabel">Опис:</label>
           <textarea
             id="description"
             rows="3"
+            data-i18n="popup.descriptionPlaceholder"
+            data-i18n-attr="placeholder"
             placeholder="Додайте опис того, що зберігаєте..."
             maxlength="500"
           ></textarea>
@@ -80,8 +82,8 @@
 
         <!-- Action Buttons -->
         <div class="button-group">
-          <button type="button" id="cancelBtn" class="btn btn-secondary">Скасувати</button>
-          <button type="submit" id="saveBtn" class="btn btn-primary">Зберегти</button>
+          <button type="button" id="cancelBtn" class="btn btn-secondary" data-i18n="popup.cancelButton">Скасувати</button>
+          <button type="submit" id="saveBtn" class="btn btn-primary" data-i18n="popup.saveButton">Зберегти</button>
         </div>
       </form>
 
@@ -91,11 +93,12 @@
 
     <!-- Footer Links -->
     <div class="footer">
-      <a href="#" id="viewBookmarksBtn" class="footer-link">📖 Збережене</a>
-      <a href="#" id="settingsLink" class="footer-link">⚙️ Налаштування</a>
+      <a href="#" id="viewBookmarksBtn" class="footer-link" data-i18n="popup.viewBookmarks">📖 Збережене</a>
+      <a href="#" id="settingsLink" class="footer-link" data-i18n="popup.settings">⚙️ Налаштування</a>
     </div>
   </div>
 
+  <script src="../utils/i18n.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>

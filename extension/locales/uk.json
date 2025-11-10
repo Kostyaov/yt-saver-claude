@@ -1,0 +1,165 @@
+{
+  "appName": "YouTube Bookmarks Saver",
+  "appDescription": "Зберігайте закладки з YouTube відео з точним часом",
+
+  "popup": {
+    "title": "YouTube Bookmarks",
+    "loading": "Завантаження інформації про відео...",
+    "errorHint": "Ви можете переглянути збережені закладки через кнопку \"Збережене\" внизу.",
+
+    "videoTitle": "Назва відео",
+    "channel": "Канал",
+
+    "themeLabel": "Тема:",
+    "themeSelectPlaceholder": "Виберіть тему...",
+    "themeAddButton": "Додати нову тему",
+    "newThemeLabel": "Нова тема:",
+    "newThemePlaceholder": "Введіть назву теми...",
+    "themeAddBtn": "Додати",
+    "themeCancelBtn": "Скасувати",
+
+    "currentTimeLabel": "Поточний час:",
+    "seconds": "сек",
+
+    "descriptionLabel": "Опис:",
+    "descriptionPlaceholder": "Додайте опис того, що зберігаєте...",
+
+    "cancelButton": "Скасувати",
+    "saveButton": "Зберегти",
+    "savingButton": "Збереження...",
+
+    "viewBookmarks": "Збережене",
+    "settings": "Налаштування",
+
+    "successMessage": "Закладку збережено!",
+    "errorMessage": "Помилка збереження"
+  },
+
+  "options": {
+    "title": "Налаштування",
+    "subtitle": "YouTube Bookmarks Saver - IndexedDB Edition",
+
+    "generalSettings": "Основні налаштування",
+    "themeAppearance": "Вигляд додатку:",
+    "themeLight": "Світла тема",
+    "themeDark": "Темна тема",
+    "themeHelpText": "Виберіть кольорову схему інтерфейсу",
+
+    "languageLabel": "Мова додатку:",
+    "languageEnglish": "English (Англійська)",
+    "languageUkrainian": "Українська",
+    "languageHelpText": "Мова інтерфейсу розширення",
+
+    "autoPauseLabel": "Автоматична пауза відео",
+    "autoPauseHelpText": "Автоматично ставити відео на паузу при відкритті вікна збереження закладки",
+
+    "saveSettingsButton": "Зберегти налаштування",
+    "savingSettings": "Збереження...",
+    "settingsSaved": "Налаштування збережено успішно!",
+    "settingsError": "Помилка збереження:",
+
+    "storageSection": "Сховище даних",
+    "storageStatus": "Статус IndexedDB:",
+    "storageAvailable": "IndexedDB доступний",
+    "storageUnavailable": "IndexedDB не підтримується",
+    "testConnectionButton": "Перевірити з'єднання",
+    "testingConnection": "Перевірка...",
+    "connectionSuccess": "IndexedDB працює успішно!",
+    "connectionError": "Помилка з'єднання:",
+
+    "statisticsSection": "Статистика",
+    "totalBookmarks": "Всього закладок:",
+    "totalCategories": "Категорій:",
+    "storageUsed": "Використано:",
+    "storageQuota": "Доступно:",
+    "refreshStatsButton": "Оновити",
+
+    "categoriesBreakdown": "Розподіл за категоріями:",
+    "noBookmarksYet": "Закладок ще немає",
+    "bookmarksCount": "шт.",
+
+    "themesSection": "Управління темами",
+    "themesDescription": "Додавайте та видаляйте теми для категоризації ваших закладок",
+    "newThemePlaceholder": "Назва нової теми...",
+    "addThemeButton": "Додати тему",
+    "noThemesYet": "Тем ще немає",
+    "deleteTheme": "Видалити",
+    "themeAdded": "Тему додано",
+    "themeDeleted": "Тему видалено",
+    "themeExists": "Ця тема вже існує",
+    "enterThemeName": "Введіть назву теми",
+
+    "dataManagement": "Управління даними",
+    "exportButton": "Експортувати дані",
+    "exportingData": "Експорт...",
+    "importButton": "Імпортувати дані",
+    "importingData": "Імпорт...",
+    "clearAllButton": "Очистити всі дані",
+    "clearingData": "Очищення...",
+
+    "importSuccess": "Імпорт завершено успішно!",
+    "importError": "Помилка імпорту:",
+    "exportSuccess": "Закладки експортовано успішно!",
+    "exportError": "Помилка експорту:",
+
+    "confirmClearAll": "Ви впевнені що хочете видалити ВСІ закладки?\\n\\nЦя дія незворотня!\\n\\nРекомендуємо спочатку зробити експорт даних.",
+    "confirmClearAllFinal": "Це остання перевірка!\\n\\nВсі ваші закладки будуть видалені назавжди.\\n\\nПродовжити?",
+    "allBookmarksCleared": "Всі закладки видалено",
+    "clearError": "Помилка видалення:"
+  },
+
+  "bookmarks": {
+    "title": "Збережені закладки",
+    "refreshButton": "Оновити",
+    "exportButton": "Експорт",
+
+    "searchPlaceholder": "Пошук по назві, опису, каналу...",
+    "categoryFilter": "Категорія:",
+    "allCategories": "Всі категорії",
+
+    "sortLabel": "Сортування:",
+    "sortNewest": "Найновіші",
+    "sortOldest": "Найстаріші",
+    "sortTitle": "За назвою",
+    "sortCategory": "За категорією",
+
+    "statsTotal": "Всього:",
+    "statsDisplayed": "Показано:",
+    "statsCategories": "Категорій:",
+
+    "loadingBookmarks": "Завантаження закладок...",
+
+    "emptyStateTitle": "Закладок ще немає",
+    "emptyStateDescription": "Збережіть свої улюблені моменти з YouTube відео",
+    "emptyStateHint": "Натисніть Ctrl+Shift+B на сторінці YouTube",
+
+    "noResultsTitle": "Нічого не знайдено",
+    "noResultsDescription": "Спробуйте змінити критерії пошуку",
+
+    "watchButton": "Дивитись",
+    "editButton": "Редагувати",
+    "deleteButton": "Видалити",
+
+    "confirmDeleteTitle": "Видалити закладку?",
+    "confirmDeleteMessage": "Ви впевнені що хочете видалити цю закладку?",
+    "confirmDeleteCancel": "Скасувати",
+    "confirmDeleteConfirm": "Видалити",
+
+    "deleteSuccess": "Закладку видалено",
+    "deleteError": "Помилка видалення:",
+    "exportSuccess": "Закладки експортовано!",
+    "exportError": "Помилка експорту:"
+  },
+
+  "common": {
+    "ok": "OK",
+    "cancel": "Скасувати",
+    "save": "Зберегти",
+    "delete": "Видалити",
+    "edit": "Редагувати",
+    "close": "Закрити",
+    "loading": "Завантаження...",
+    "error": "Помилка",
+    "success": "Успішно"
+  }
+}

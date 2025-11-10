@@ -10,6 +10,12 @@ class BookmarkPopup {
   }
 
   async init() {
+    // Wait for i18n to initialize
+    if (typeof i18n !== 'undefined') {
+      await i18n.init();
+      i18n.applyTranslations();
+    }
+
     // Setup event listeners first (so footer buttons always work)
     this.setupEventListeners();
 
@@ -203,7 +209,7 @@ class BookmarkPopup {
 
     try {
       saveBtn.disabled = true;
-      saveBtn.textContent = 'Збереження...';
+      saveBtn.textContent = i18n.t('popup.savingButton');
 
       // Get form data
       let theme = document.getElementById('themeSelect').value;
@@ -219,7 +225,7 @@ class BookmarkPopup {
       }
 
       if (!theme) {
-        throw new Error('Будь ласка, виберіть або додайте тему');
+        throw new Error(i18n.t('popup.themeSelectPlaceholder'));
       }
 
       const description = document.getElementById('description').value.trim();
@@ -245,14 +251,14 @@ class BookmarkPopup {
       });
 
       if (response.success) {
-        statusMessage.textContent = '✓ Закладку успішно збережено!';
+        statusMessage.textContent = '✓ ' + i18n.t('popup.successMessage');
         statusMessage.className = 'status-message success';
         statusMessage.classList.remove('hidden');
 
         // Close popup after 1.5 seconds
         setTimeout(() => window.close(), 1500);
       } else {
-        throw new Error(response.error || 'Помилка збереження');
+        throw new Error(response.error || i18n.t('popup.errorMessage'));
       }
     } catch (error) {
       console.error('Error saving bookmark:', error);
@@ -261,7 +267,7 @@ class BookmarkPopup {
       statusMessage.classList.remove('hidden');
 
       saveBtn.disabled = false;
-      saveBtn.textContent = 'Зберегти';
+      saveBtn.textContent = i18n.t('popup.saveButton');
     }
   }
 

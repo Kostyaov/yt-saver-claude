@@ -1,0 +1,165 @@
+{
+  "appName": "YouTube Bookmarks Saver",
+  "appDescription": "Save bookmarks from YouTube videos with precise timestamps",
+
+  "popup": {
+    "title": "YouTube Bookmarks",
+    "loading": "Loading video information...",
+    "errorHint": "You can view saved bookmarks using the \"Saved\" button below.",
+
+    "videoTitle": "Video Title",
+    "channel": "Channel",
+
+    "themeLabel": "Theme:",
+    "themeSelectPlaceholder": "Select a theme...",
+    "themeAddButton": "Add new theme",
+    "newThemeLabel": "New theme:",
+    "newThemePlaceholder": "Enter theme name...",
+    "themeAddBtn": "Add",
+    "themeCancelBtn": "Cancel",
+
+    "currentTimeLabel": "Current time:",
+    "seconds": "sec",
+
+    "descriptionLabel": "Description:",
+    "descriptionPlaceholder": "Add a description of what you're saving...",
+
+    "cancelButton": "Cancel",
+    "saveButton": "Save",
+    "savingButton": "Saving...",
+
+    "viewBookmarks": "Saved",
+    "settings": "Settings",
+
+    "successMessage": "Bookmark saved!",
+    "errorMessage": "Save error"
+  },
+
+  "options": {
+    "title": "Settings",
+    "subtitle": "YouTube Bookmarks Saver - IndexedDB Edition",
+
+    "generalSettings": "General Settings",
+    "themeAppearance": "App Appearance:",
+    "themeLight": "Light Theme",
+    "themeDark": "Dark Theme",
+    "themeHelpText": "Choose the interface color scheme",
+
+    "languageLabel": "App Language:",
+    "languageEnglish": "English",
+    "languageUkrainian": "Ukrainian (Українська)",
+    "languageHelpText": "Extension interface language",
+
+    "autoPauseLabel": "Auto-pause video",
+    "autoPauseHelpText": "Automatically pause video when opening the bookmark save window",
+
+    "saveSettingsButton": "Save Settings",
+    "savingSettings": "Saving...",
+    "settingsSaved": "Settings saved successfully!",
+    "settingsError": "Save error:",
+
+    "storageSection": "Data Storage",
+    "storageStatus": "IndexedDB Status:",
+    "storageAvailable": "IndexedDB available",
+    "storageUnavailable": "IndexedDB not supported",
+    "testConnectionButton": "Test Connection",
+    "testingConnection": "Testing...",
+    "connectionSuccess": "IndexedDB working successfully!",
+    "connectionError": "Connection error:",
+
+    "statisticsSection": "Statistics",
+    "totalBookmarks": "Total bookmarks:",
+    "totalCategories": "Categories:",
+    "storageUsed": "Used:",
+    "storageQuota": "Available:",
+    "refreshStatsButton": "Refresh",
+
+    "categoriesBreakdown": "Categories Breakdown:",
+    "noBookmarksYet": "No bookmarks yet",
+    "bookmarksCount": "pcs.",
+
+    "themesSection": "Themes Management",
+    "themesDescription": "Add and remove themes to categorize your bookmarks",
+    "newThemePlaceholder": "New theme name...",
+    "addThemeButton": "Add Theme",
+    "noThemesYet": "No themes yet",
+    "deleteTheme": "Delete",
+    "themeAdded": "Theme added",
+    "themeDeleted": "Theme deleted",
+    "themeExists": "This theme already exists",
+    "enterThemeName": "Enter theme name",
+
+    "dataManagement": "Data Management",
+    "exportButton": "Export Data",
+    "exportingData": "Exporting...",
+    "importButton": "Import Data",
+    "importingData": "Importing...",
+    "clearAllButton": "Clear All Data",
+    "clearingData": "Clearing...",
+
+    "importSuccess": "Import completed successfully!",
+    "importError": "Import error:",
+    "exportSuccess": "Bookmarks exported successfully!",
+    "exportError": "Export error:",
+
+    "confirmClearAll": "Are you sure you want to delete ALL bookmarks?\\n\\nThis action is irreversible!\\n\\nWe recommend exporting your data first.",
+    "confirmClearAllFinal": "This is the final check!\\n\\nAll your bookmarks will be deleted forever.\\n\\nContinue?",
+    "allBookmarksCleared": "All bookmarks cleared",
+    "clearError": "Delete error:"
+  },
+
+  "bookmarks": {
+    "title": "Saved Bookmarks",
+    "refreshButton": "Refresh",
+    "exportButton": "Export",
+
+    "searchPlaceholder": "Search by title, description, channel...",
+    "categoryFilter": "Category:",
+    "allCategories": "All Categories",
+
+    "sortLabel": "Sort:",
+    "sortNewest": "Newest",
+    "sortOldest": "Oldest",
+    "sortTitle": "By Title",
+    "sortCategory": "By Category",
+
+    "statsTotal": "Total:",
+    "statsDisplayed": "Displayed:",
+    "statsCategories": "Categories:",
+
+    "loadingBookmarks": "Loading bookmarks...",
+
+    "emptyStateTitle": "No bookmarks yet",
+    "emptyStateDescription": "Save your favorite moments from YouTube videos",
+    "emptyStateHint": "Press Ctrl+Shift+B on a YouTube page",
+
+    "noResultsTitle": "Nothing found",
+    "noResultsDescription": "Try changing your search criteria",
+
+    "watchButton": "Watch",
+    "editButton": "Edit",
+    "deleteButton": "Delete",
+
+    "confirmDeleteTitle": "Delete bookmark?",
+    "confirmDeleteMessage": "Are you sure you want to delete this bookmark?",
+    "confirmDeleteCancel": "Cancel",
+    "confirmDeleteConfirm": "Delete",
+
+    "deleteSuccess": "Bookmark deleted",
+    "deleteError": "Delete error:",
+    "exportSuccess": "Bookmarks exported!",
+    "exportError": "Export error:"
+  },
+
+  "common": {
+    "ok": "OK",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  }
+}
