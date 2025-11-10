@@ -10,6 +10,12 @@ class IndexedDBOptionsManager {
   }
 
   async init() {
+    // Initialize i18n
+    if (typeof i18n !== 'undefined') {
+      await i18n.init();
+      i18n.applyTranslations();
+    }
+
     // Load themes from storage
     await this.loadThemes();
 
@@ -434,10 +440,15 @@ class IndexedDBOptionsManager {
       saveBtn.disabled = true;
       saveBtn.textContent = '💾 Збереження...';
 
+      // Get current and previous language
+      const currentLanguage = i18n.getCurrentLanguage();
+      const newLanguage = document.getElementById('languageSelect').value;
+      const languageChanged = currentLanguage !== newLanguage;
+
       // Get current values
       const settings = {
         theme: document.getElementById('themeSelect').value,
-        language: document.getElementById('languageSelect').value,
+        language: newLanguage,
         autoPause: document.getElementById('autoPauseCheckbox').checked
       };
 
@@ -454,6 +465,22 @@ class IndexedDBOptionsManager {
 
       // Apply theme immediately
       this.applyTheme(settings.theme);
+
+      // If language changed, apply new language and reload page
+      if (languageChanged && typeof i18n !== 'undefined') {
+        await i18n.setLanguage(newLanguage);
+
+        // Show success message briefly before reload
+        statusDiv.textContent = '✅ Налаштування збережено! Сторінка оновлюється...';
+        statusDiv.className = 'status-message success';
+        statusDiv.classList.remove('hidden');
+
+        // Reload page after short delay to apply new language
+        setTimeout(() => {
+          window.location.reload();
+        }, 800);
+        return;
+      }
 
       // Show success message
       statusDiv.textContent = '✅ Налаштування збережено успішно!';
@@ -475,7 +502,7 @@ class IndexedDBOptionsManager {
 
       this.showNotification('Помилка збереження: ' + error.message, 'error');
     } finally {
-      // Re-enable button
+      // Re-enable button (unless page is reloading due to language change)
       saveBtn.disabled = false;
       saveBtn.textContent = '💾 Зберегти налаштування';
     }

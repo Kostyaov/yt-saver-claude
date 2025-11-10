@@ -12,6 +12,12 @@ class BookmarksViewer {
   }
 
   async init() {
+    // Initialize i18n
+    if (typeof i18n !== 'undefined') {
+      await i18n.init();
+      i18n.applyTranslations();
+    }
+
     // Load and apply theme from settings
     await this.loadTheme();
 
