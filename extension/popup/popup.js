@@ -16,6 +16,9 @@ class BookmarkPopup {
     // Load themes from storage
     await this.loadThemes();
 
+    // Check auto-pause setting and pause video if enabled
+    await this.handleAutoPause();
+
     // Load video information
     await this.loadVideoInfo();
   }
@@ -270,6 +273,28 @@ class BookmarkPopup {
       return `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     }
     return `${minutes}:${secs.toString().padStart(2, '0')}`;
+  }
+
+  async handleAutoPause() {
+    try {
+      // Check if auto-pause is enabled
+      const result = await chrome.storage.sync.get(['autoPause']);
+      const autoPause = result.autoPause || false;
+
+      if (autoPause) {
+        // Get active tab
+        const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+        // Only pause if we're on a YouTube video page
+        if (tab.url && tab.url.includes('youtube.com/watch')) {
+          // Send message to content script to pause video
+          await chrome.tabs.sendMessage(tab.id, { action: 'pauseVideo' });
+        }
+      }
+    } catch (error) {
+      // Silently fail - auto-pause is optional feature
+      console.log('Auto-pause not available:', error.message);
+    }
   }
 }
 

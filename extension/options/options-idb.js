@@ -13,6 +13,9 @@ class IndexedDBOptionsManager {
     // Load themes from storage
     await this.loadThemes();
 
+    // Load general settings (theme, language, auto-pause)
+    await this.loadSettings();
+
     // Setup event listeners
     this.setupEventListeners();
 
@@ -67,6 +70,16 @@ class IndexedDBOptionsManager {
       if (e.key === 'Enter') {
         this.addTheme();
       }
+    });
+
+    // General Settings - Save button
+    document.getElementById('saveSettingsBtn').addEventListener('click', () => {
+      this.saveSettings();
+    });
+
+    // General Settings - Theme change (apply immediately)
+    document.getElementById('themeSelect').addEventListener('change', (e) => {
+      this.applyTheme(e.target.value);
     });
   }
 
@@ -389,6 +402,91 @@ class IndexedDBOptionsManager {
     setTimeout(() => {
       toast.classList.add('hidden');
     }, 3000);
+  }
+
+  async loadSettings() {
+    return new Promise((resolve) => {
+      chrome.storage.sync.get(['theme', 'language', 'autoPause'], (result) => {
+        // Load theme (default: light)
+        const theme = result.theme || 'light';
+        document.getElementById('themeSelect').value = theme;
+        this.applyTheme(theme);
+
+        // Load language (default: en)
+        const language = result.language || 'en';
+        document.getElementById('languageSelect').value = language;
+
+        // Load auto-pause (default: false)
+        const autoPause = result.autoPause || false;
+        document.getElementById('autoPauseCheckbox').checked = autoPause;
+
+        resolve();
+      });
+    });
+  }
+
+  async saveSettings() {
+    const saveBtn = document.getElementById('saveSettingsBtn');
+    const statusDiv = document.getElementById('settingsSaveStatus');
+
+    try {
+      // Disable button during save
+      saveBtn.disabled = true;
+      saveBtn.textContent = '💾 Збереження...';
+
+      // Get current values
+      const settings = {
+        theme: document.getElementById('themeSelect').value,
+        language: document.getElementById('languageSelect').value,
+        autoPause: document.getElementById('autoPauseCheckbox').checked
+      };
+
+      // Save to chrome.storage.sync
+      await new Promise((resolve, reject) => {
+        chrome.storage.sync.set(settings, () => {
+          if (chrome.runtime.lastError) {
+            reject(chrome.runtime.lastError);
+          } else {
+            resolve();
+          }
+        });
+      });
+
+      // Apply theme immediately
+      this.applyTheme(settings.theme);
+
+      // Show success message
+      statusDiv.textContent = '✅ Налаштування збережено успішно!';
+      statusDiv.className = 'status-message success';
+      statusDiv.classList.remove('hidden');
+
+      this.showNotification('Налаштування збережено', 'success');
+
+      // Hide message after 3 seconds
+      setTimeout(() => {
+        statusDiv.classList.add('hidden');
+      }, 3000);
+
+    } catch (error) {
+      console.error('Error saving settings:', error);
+      statusDiv.textContent = '❌ Помилка збереження: ' + error.message;
+      statusDiv.className = 'status-message error';
+      statusDiv.classList.remove('hidden');
+
+      this.showNotification('Помилка збереження: ' + error.message, 'error');
+    } finally {
+      // Re-enable button
+      saveBtn.disabled = false;
+      saveBtn.textContent = '💾 Зберегти налаштування';
+    }
+  }
+
+  applyTheme(theme) {
+    // Apply theme to body element
+    document.body.setAttribute('data-theme', theme);
+
+    // Also save to storage if called directly
+    chrome.storage.sync.set({ theme: theme });
   }
 }
 

@@ -21,6 +21,19 @@ class YouTubeBookmarkHelper {
         });
         return true; // Keep message channel open for async response
       }
+
+      // Handle pause/play video
+      if (request.action === 'pauseVideo') {
+        this.pauseVideo();
+        sendResponse({ success: true });
+        return true;
+      }
+
+      if (request.action === 'playVideo') {
+        this.playVideo();
+        sendResponse({ success: true });
+        return true;
+      }
     });
 
     // Listen for keyboard shortcut
@@ -136,6 +149,18 @@ class YouTubeBookmarkHelper {
   openSaveDialog() {
     // This will trigger the popup to open
     chrome.runtime.sendMessage({ action: 'openPopup' });
+  }
+
+  pauseVideo() {
+    if (this.videoPlayer && !this.videoPlayer.paused) {
+      this.videoPlayer.pause();
+    }
+  }
+
+  playVideo() {
+    if (this.videoPlayer && this.videoPlayer.paused) {
+      this.videoPlayer.play();
+    }
   }
 }
 
