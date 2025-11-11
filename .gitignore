@@ -10,7 +10,6 @@
 Thumbs.db
 
 # Extension specific
-extension/icons/*.png
 *.crx
 *.pem
 *.zip
