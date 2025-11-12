@@ -211,6 +211,18 @@ class BookmarkPopup {
       saveBtn.disabled = true;
       saveBtn.textContent = i18n.t('popup.savingButton');
 
+      // Check bookmark limit (FREE tier)
+      const bookmarksResponse = await chrome.runtime.sendMessage({
+        action: 'getBookmarks'
+      });
+
+      const currentBookmarksCount = bookmarksResponse.success ? bookmarksResponse.data.length : 0;
+      const limitCheck = await licenseManager.checkBookmarkLimit(currentBookmarksCount);
+
+      if (!limitCheck.allowed) {
+        throw new Error(limitCheck.message);
+      }
+
       // Get form data
       let theme = document.getElementById('themeSelect').value;
       const newTheme = document.getElementById('newThemeInput').value.trim();

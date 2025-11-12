@@ -154,7 +154,34 @@
     "deleteError": "Помилка видалення:",
     "storageUsedText": "використано",
     "settingsSaved": "Налаштування збережено успішно!",
-    "settingsSavedShort": "Налаштування збережено"
+    "settingsSavedShort": "Налаштування збережено",
+
+    "proLicenseTitle": "⭐ PRO Ліцензія",
+    "licenseStatusFree": "Безкоштовна версія",
+    "licenseStatusPro": "PRO Версія",
+    "limitBookmarks": "Закладок:",
+    "limitThemes": "Тем:",
+    "proActivatedAt": "Активовано:",
+    "proLicenseCode": "Код ліцензії:",
+    "activatePro": "Активувати PRO версію",
+    "proDescription": "Зніміть усі обмеження та отримайте необмежену кількість закладок та тем",
+    "enterLicenseCode": "Введіть код ліцензії:",
+    "licenseCodeFormat": "Формат: YTBS-XXXX-XXXX-XXXX",
+    "activateButton": "Активувати ліцензію",
+    "buyProButton": "Купити PRO",
+    "deactivateButton": "Деактивувати ліцензію",
+    "proFeaturesTitle": "PRO Функції:",
+    "proFeatureUnlimitedBookmarks": "Необмежена кількість закладок",
+    "proFeatureUnlimitedThemes": "Необмежена кількість тем/категорій",
+    "proFeatureSupport": "Пріоритетна підтримка",
+    "proFeatureUpdates": "Ранній доступ до нових функцій",
+
+    "licenseActivated": "PRO ліцензію успішно активовано!",
+    "licenseDeactivated": "Ліцензію деактивовано",
+    "licenseInvalidFormat": "Невірний формат коду ліцензії. Очікується: YTBS-XXXX-XXXX-XXXX",
+    "licenseInvalid": "Невірний код ліцензії. Будь ласка, перевірте та спробуйте ще раз.",
+    "licenseAlreadyActivated": "Ця ліцензія вже активована",
+    "licenseActivationError": "Помилка активації ліцензії:"
   },
 
   "bookmarks": {

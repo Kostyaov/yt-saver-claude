@@ -154,7 +154,34 @@
     "deleteError": "Delete error:",
     "storageUsedText": "used",
     "settingsSaved": "Settings saved successfully!",
-    "settingsSavedShort": "Settings saved"
+    "settingsSavedShort": "Settings saved",
+
+    "proLicenseTitle": "⭐ PRO License",
+    "licenseStatusFree": "FREE Version",
+    "licenseStatusPro": "PRO Version",
+    "limitBookmarks": "Bookmarks:",
+    "limitThemes": "Themes:",
+    "proActivatedAt": "Activated:",
+    "proLicenseCode": "License Code:",
+    "activatePro": "Activate PRO Version",
+    "proDescription": "Remove all limits and get unlimited bookmarks & themes",
+    "enterLicenseCode": "Enter License Code:",
+    "licenseCodeFormat": "Format: YTBS-XXXX-XXXX-XXXX",
+    "activateButton": "Activate License",
+    "buyProButton": "Buy PRO",
+    "deactivateButton": "Deactivate License",
+    "proFeaturesTitle": "PRO Features:",
+    "proFeatureUnlimitedBookmarks": "Unlimited bookmarks",
+    "proFeatureUnlimitedThemes": "Unlimited themes/categories",
+    "proFeatureSupport": "Priority support",
+    "proFeatureUpdates": "Early access to new features",
+
+    "licenseActivated": "PRO license activated successfully!",
+    "licenseDeactivated": "License deactivated",
+    "licenseInvalidFormat": "Invalid license code format. Expected: YTBS-XXXX-XXXX-XXXX",
+    "licenseInvalid": "Invalid license code. Please check and try again.",
+    "licenseAlreadyActivated": "This license is already activated",
+    "licenseActivationError": "Error activating license:"
   },
 
   "bookmarks": {

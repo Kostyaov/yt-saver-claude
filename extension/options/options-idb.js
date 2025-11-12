@@ -33,6 +33,9 @@ class IndexedDBOptionsManager {
 
     // Load database size
     await this.loadDatabaseSize();
+
+    // Load and display license status
+    await this.updateLicenseDisplay();
   }
 
   setupEventListeners() {
@@ -86,6 +89,28 @@ class IndexedDBOptionsManager {
     // General Settings - Theme change (apply immediately)
     document.getElementById('themeSelect').addEventListener('change', (e) => {
       this.applyTheme(e.target.value);
+    });
+
+    // PRO License - Activate button
+    document.getElementById('activateLicenseBtn').addEventListener('click', () => {
+      this.activateLicense();
+    });
+
+    // PRO License - Deactivate button
+    document.getElementById('deactivateLicenseBtn').addEventListener('click', () => {
+      this.deactivateLicense();
+    });
+
+    // PRO License - Buy PRO button
+    document.getElementById('buyProBtn').addEventListener('click', () => {
+      this.handleBuyPro();
+    });
+
+    // PRO License - Enter key in license input
+    document.getElementById('licenseCodeInput').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        this.activateLicense();
+      }
     });
   }
 
@@ -339,6 +364,13 @@ class IndexedDBOptionsManager {
       return;
     }
 
+    // Check theme limit (FREE tier)
+    const limitCheck = await licenseManager.checkThemeLimit(this.themes.length);
+    if (!limitCheck.allowed) {
+      this.showNotification(limitCheck.message, 'error');
+      return;
+    }
+
     this.themes.push(themeName);
 
     chrome.storage.sync.set({ themes: this.themes }, () => {
@@ -514,6 +546,155 @@ class IndexedDBOptionsManager {
 
     // Also save to storage if called directly
     chrome.storage.sync.set({ theme: theme });
+  }
+
+  async updateLicenseDisplay() {
+    try {
+      // Get license info
+      const licenseInfo = await licenseManager.getLicenseInfo();
+      const isPro = licenseInfo.active;
+      const limits = await licenseManager.getLimitsSummary();
+
+      // Update status icon and text
+      const statusIcon = document.getElementById('licenseStatusIcon');
+      const statusText = document.getElementById('licenseStatusText');
+      const proSection = document.querySelector('.pro-section');
+
+      if (isPro) {
+        // PRO Version
+        statusIcon.textContent = '⭐';
+        statusText.textContent = i18n.t('options.licenseStatusPro');
+        statusText.style.color = '#2e7d32';
+
+        // Add pro-active class to section
+        proSection.classList.add('pro-active');
+
+        // Hide limits and activation form
+        document.getElementById('licenseLimits').classList.add('hidden');
+        document.getElementById('licenseActivationForm').classList.add('hidden');
+
+        // Show PRO license info
+        const proLicenseInfo = document.getElementById('proLicenseInfo');
+        proLicenseInfo.classList.remove('hidden');
+
+        // Format activation date
+        const activatedDate = new Date(licenseInfo.activatedAt);
+        document.getElementById('proActivatedDate').textContent = activatedDate.toLocaleDateString();
+        document.getElementById('proLicenseCode').textContent = licenseInfo.code;
+
+        // Show deactivate button
+        document.getElementById('deactivateLicenseSection').classList.remove('hidden');
+      } else {
+        // FREE Version
+        statusIcon.textContent = '🆓';
+        statusText.textContent = i18n.t('options.licenseStatusFree');
+        statusText.style.color = '#666';
+
+        // Remove pro-active class
+        proSection.classList.remove('pro-active');
+
+        // Show limits and activation form
+        document.getElementById('licenseLimits').classList.remove('hidden');
+        document.getElementById('licenseActivationForm').classList.remove('hidden');
+
+        // Update limit text
+        document.getElementById('limitBookmarksText').textContent = limits.bookmarks;
+        document.getElementById('limitThemesText').textContent = limits.themes;
+
+        // Hide PRO license info and deactivate button
+        document.getElementById('proLicenseInfo').classList.add('hidden');
+        document.getElementById('deactivateLicenseSection').classList.add('hidden');
+      }
+    } catch (error) {
+      console.error('Error updating license display:', error);
+    }
+  }
+
+  async activateLicense() {
+    const input = document.getElementById('licenseCodeInput');
+    const button = document.getElementById('activateLicenseBtn');
+    const messageDiv = document.getElementById('licenseMessage');
+    const code = input.value.trim();
+
+    try {
+      // Disable button during processing
+      button.disabled = true;
+      button.textContent = i18n.t('common.loading');
+
+      // Hide previous message
+      messageDiv.classList.add('hidden');
+
+      if (!code) {
+        throw new Error(i18n.t('options.enterLicenseCode'));
+      }
+
+      // Activate license
+      const result = await licenseManager.activateLicense(code);
+
+      if (result.success) {
+        // Show success message
+        messageDiv.textContent = '✓ ' + i18n.t('options.licenseActivated');
+        messageDiv.className = 'license-message success';
+        messageDiv.classList.remove('hidden');
+
+        // Clear input
+        input.value = '';
+
+        // Update display
+        await this.updateLicenseDisplay();
+
+        // Show notification
+        this.showNotification(i18n.t('options.licenseActivated'), 'success');
+
+        // Hide message after 5 seconds
+        setTimeout(() => {
+          messageDiv.classList.add('hidden');
+        }, 5000);
+      } else {
+        throw new Error(result.message);
+      }
+    } catch (error) {
+      console.error('Activation error:', error);
+      messageDiv.textContent = '✗ ' + error.message;
+      messageDiv.className = 'license-message error';
+      messageDiv.classList.remove('hidden');
+
+      this.showNotification(error.message, 'error');
+    } finally {
+      // Re-enable button
+      button.disabled = false;
+      button.textContent = i18n.t('options.activateButton');
+    }
+  }
+
+  async deactivateLicense() {
+    if (!confirm('Ви впевнені, що хочете деактивувати PRO ліцензію?\n\nВсі обмеження FREE версії будуть відновлені.')) {
+      return;
+    }
+
+    try {
+      const result = await licenseManager.deactivateLicense();
+
+      if (result.success) {
+        this.showNotification(i18n.t('options.licenseDeactivated'), 'success');
+        await this.updateLicenseDisplay();
+      } else {
+        throw new Error(result.message);
+      }
+    } catch (error) {
+      console.error('Deactivation error:', error);
+      this.showNotification(i18n.t('options.licenseActivationError') + ' ' + error.message, 'error');
+    }
+  }
+
+  handleBuyPro() {
+    // Open payment page (you'll need to replace this URL with actual Gumroad/payment link)
+    const buyProUrl = 'https://example.com/buy-pro'; // TODO: Replace with actual payment URL
+
+    // Open in new tab
+    chrome.tabs.create({ url: buyProUrl });
+
+    this.showNotification('Відкривається сторінка покупки PRO версії...', 'info');
   }
 }
 

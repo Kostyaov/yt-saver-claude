@@ -39,6 +39,67 @@
         </div>
       </section>
 
+      <!-- PRO License Section -->
+      <section class="section pro-section">
+        <h2 data-i18n="options.proLicenseTitle">⭐ PRO License</h2>
+        <div class="section-content">
+          <!-- License Status -->
+          <div id="licenseStatus" class="license-status-box">
+            <div class="license-status-indicator">
+              <span id="licenseStatusIcon" class="license-icon">🆓</span>
+              <span id="licenseStatusText" class="license-status-text" data-i18n="options.licenseStatusFree">FREE Version</span>
+            </div>
+            <div id="licenseLimits" class="license-limits">
+              <p>📚 <span data-i18n="options.limitBookmarks">Bookmarks:</span> <span id="limitBookmarksText">100</span></p>
+              <p>🏷️ <span data-i18n="options.limitThemes">Themes:</span> <span id="limitThemesText">5</span></p>
+            </div>
+          </div>
+
+          <!-- PRO License Info (if activated) -->
+          <div id="proLicenseInfo" class="pro-license-info hidden">
+            <p><strong data-i18n="options.proActivatedAt">Activated:</strong> <span id="proActivatedDate">-</span></p>
+            <p><strong data-i18n="options.proLicenseCode">License Code:</strong> <code id="proLicenseCode">-</code></p>
+          </div>
+
+          <!-- License Activation Form (for FREE users) -->
+          <div id="licenseActivationForm" class="license-activation-form">
+            <h4 data-i18n="options.activatePro">Activate PRO Version</h4>
+            <p data-i18n="options.proDescription">Remove all limits and get unlimited bookmarks & themes</p>
+
+            <div class="form-group">
+              <label for="licenseCodeInput" data-i18n="options.enterLicenseCode">Enter License Code:</label>
+              <input type="text" id="licenseCodeInput" class="text-input" placeholder="YTBS-XXXX-XXXX-XXXX" maxlength="19">
+              <p class="help-text" data-i18n="options.licenseCodeFormat">Format: YTBS-XXXX-XXXX-XXXX</p>
+            </div>
+
+            <div class="button-group">
+              <button id="activateLicenseBtn" class="btn btn-primary" data-i18n="options.activateButton">Activate License</button>
+              <button id="buyProBtn" class="btn btn-success" data-i18n="options.buyProButton">Buy PRO</button>
+            </div>
+
+            <div id="licenseMessage" class="license-message hidden"></div>
+          </div>
+
+          <!-- Deactivate button (for PRO users) -->
+          <div id="deactivateLicenseSection" class="hidden">
+            <div class="button-group">
+              <button id="deactivateLicenseBtn" class="btn btn-secondary" data-i18n="options.deactivateButton">Deactivate License</button>
+            </div>
+          </div>
+
+          <!-- PRO Features List -->
+          <div class="pro-features">
+            <h4 data-i18n="options.proFeaturesTitle">PRO Features:</h4>
+            <ul class="feature-list">
+              <li>✅ <span data-i18n="options.proFeatureUnlimitedBookmarks">Unlimited bookmarks</span></li>
+              <li>✅ <span data-i18n="options.proFeatureUnlimitedThemes">Unlimited themes/categories</span></li>
+              <li>✅ <span data-i18n="options.proFeatureSupport">Priority support</span></li>
+              <li>✅ <span data-i18n="options.proFeatureUpdates">Early access to new features</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
       <!-- General Settings -->
       <section class="section">
         <h2 data-i18n="options.generalSettings">⚙️ Основні налаштування</h2>
@@ -218,6 +279,7 @@
   </div>
 
   <script src="../utils/i18n.js"></script>
+  <script src="../utils/license.js"></script>
   <script src="options-idb.js"></script>
 </body>
 </html>
