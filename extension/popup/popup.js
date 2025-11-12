@@ -185,6 +185,13 @@ class BookmarkPopup {
     try {
       // Add new theme to list if it doesn't exist
       if (!this.themes.includes(newTheme)) {
+        // Check theme limit (FREE tier)
+        const limitCheck = await licenseManager.checkThemeLimit(this.themes.length);
+        if (!limitCheck.allowed) {
+          this.showError(limitCheck.message);
+          return;
+        }
+
         this.themes.push(newTheme);
         await chrome.storage.sync.set({ themes: this.themes });
 
@@ -330,6 +337,23 @@ class BookmarkPopup {
       console.log('Error loading theme:', error);
       // Default to light theme
       document.body.setAttribute('data-theme', 'light');
+    }
+  }
+
+  showError(message) {
+    const statusMessage = document.getElementById('statusMessage');
+    if (statusMessage) {
+      statusMessage.textContent = '✗ ' + message;
+      statusMessage.className = 'status-message error';
+      statusMessage.classList.remove('hidden');
+
+      // Hide after 5 seconds
+      setTimeout(() => {
+        statusMessage.classList.add('hidden');
+      }, 5000);
+    } else {
+      // Fallback to alert if statusMessage element not found
+      alert(message);
     }
   }
 }
