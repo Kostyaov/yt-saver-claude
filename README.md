@@ -1,7 +1,7 @@
 # 📚 YouTube Bookmarks Saver (Local Storage Edition)
 
-**Version:** 3.0.0
-**Версія:** 3.0.0
+**Version:** 3.1.0
+**Версія:** 3.1.0
 
 **Storage:** IndexedDB (Local)
 **Сховище:** IndexedDB (Локальне)
@@ -34,6 +34,7 @@
 - ✅ **Internationalization** - English and Ukrainian languages
 - ✅ **Theme Support** - Light and dark themes
 - ✅ **Auto-Pause** - Option to pause video when saving bookmark
+- ⭐ **PRO Licensing** - Optional PRO version with unlimited bookmarks and themes
 
 ### UK:
 - ✅ **Локальне зберігання** - Всі дані у IndexedDB браузера
@@ -48,6 +49,7 @@
 - ✅ **Інтернаціоналізація** - Англійська та українська мови
 - ✅ **Підтримка тем** - Світла та темна теми
 - ✅ **Авто-пауза** - Опція паузи відео при збереженні закладки
+- ⭐ **PRO ліцензування** - Опціональна PRO версія з необмеженою кількістю закладок та тем
 
 ---
 
@@ -93,11 +95,71 @@
 
 ---
 
+## ⭐ PRO Version / PRO Версія
+
+### EN:
+
+**FREE Version (Default):**
+- ✅ 100 bookmarks limit
+- ✅ 5 themes/categories limit
+- ✅ All core features included
+- ✅ No registration required
+
+**PRO Version:**
+- ⭐ **Unlimited bookmarks**
+- ⭐ **Unlimited themes/categories**
+- ⭐ Priority support
+- ⭐ Early access to new features
+
+**How to Upgrade:**
+1. Open extension Settings (⚙️)
+2. Go to **"⭐ PRO License"** section
+3. Click **"Buy PRO"** button
+4. Enter your license code (format: `YTBS-XXXX-XXXX-XXXX`)
+5. Click **"Activate License"**
+6. Done! All limits removed instantly
+
+**License Features:**
+- ✅ Offline validation (no internet required)
+- ✅ Syncs across devices (chrome.storage.sync)
+- ✅ One-time purchase
+- ✅ Instant activation
+
+### UK:
+
+**Безкоштовна версія (за замовчуванням):**
+- ✅ Ліміт 100 закладок
+- ✅ Ліміт 5 тем/категорій
+- ✅ Всі основні функції включені
+- ✅ Реєстрація не потрібна
+
+**PRO Версія:**
+- ⭐ **Необмежена кількість закладок**
+- ⭐ **Необмежена кількість тем/категорій**
+- ⭐ Пріоритетна підтримка
+- ⭐ Ранній доступ до нових функцій
+
+**Як оновитись:**
+1. Відкрийте Налаштування розширення (⚙️)
+2. Перейдіть до секції **"⭐ PRO Ліцензія"**
+3. Натисніть кнопку **"Купити PRO"**
+4. Введіть ваш код ліцензії (формат: `YTBS-XXXX-XXXX-XXXX`)
+5. Натисніть **"Активувати ліцензію"**
+6. Готово! Всі обмеження знято миттєво
+
+**Особливості ліцензії:**
+- ✅ Офлайн валідація (інтернет не потрібен)
+- ✅ Синхронізація між пристроями (chrome.storage.sync)
+- ✅ Одноразова покупка
+- ✅ Миттєва активація
+
+---
+
 ## 📦 What's Included / Що включено
 
 ```
 extension/
-├── manifest.json              # Extension config v3.0.0
+├── manifest.json              # Extension config v3.1.0
 ├── background/
 │   └── service-worker.js      # Background logic
 ├── popup/
@@ -110,13 +172,18 @@ extension/
 │   └── youtube-script.js      # Extract YouTube metadata
 ├── options/
 │   ├── options-idb.html/js    # Settings & export/import
-│   └── options.css
+│   └── options.css            # Styles with PRO section
 ├── locales/
 │   ├── en.json                # English translations
 │   └── uk.json                # Ukrainian translations
+├── icons/
+│   ├── icon16.png             # Extension icon 16x16
+│   ├── icon48.png             # Extension icon 48x48
+│   └── icon128.png            # Extension icon 128x128
 └── utils/
     ├── idb-api.js             # IndexedDB API wrapper
-    └── i18n.js                # Internationalization utility
+    ├── i18n.js                # Internationalization utility
+    └── license.js             # PRO license management
 
 doc/
 └── CONTEXT_ENGINEERING.md     # Full documentation (1200+ lines)
@@ -175,6 +242,7 @@ doc/
 
 **EN:**
 - General settings (theme, language, auto-pause)
+- ⭐ **PRO License management** (activate/deactivate, view status)
 - View database status and statistics
 - Export all bookmarks to JSON
 - Import from JSON file
@@ -183,6 +251,7 @@ doc/
 
 **UK:**
 - Основні налаштування (тема, мова, авто-пауза)
+- ⭐ **Управління PRO ліцензією** (активація/деактивація, перегляд статусу)
 - Перегляд статусу бази даних та статистики
 - Експорт всіх закладок у JSON
 - Імпорт з JSON файлу
@@ -274,9 +343,10 @@ doc/
 
 ## 📊 Version History / Історія версій
 
-| Version / Версія | Storage / Сховище | Status / Статус |
+| Version / Версія | Features / Особливості | Status / Статус |
 |---------|---------|--------|
-| v3.0.0 | **IndexedDB (current / поточна)** | ✅ Active / Активна |
+| v3.1.0 | **IndexedDB + PRO Licensing (current / поточна)** | ✅ Active / Активна |
+| v3.0.0 | IndexedDB (Local Storage) | ✅ Active / Активна |
 | v2.0.0 | Firebase Firestore | 🗑️ Removed / Видалена |
 | v1.0.0 | Google Sheets | 🗑️ Removed / Видалена |
 
@@ -375,13 +445,13 @@ MIT License (or specify your license / або вкажіть вашу ліцен
 ---
 
 **Current Branch / Поточна гілка:** `claude/yt-saver-idb-011CUvZj39HXCfeFq2nvhizf`
-**Last Updated / Останнє оновлення:** November 10, 2024
+**Last Updated / Останнє оновлення:** November 12, 2024
 **Maintained by / Підтримується:** AI-assisted development / AI-асистована розробка
 
 ---
 
 **Note / Примітка:**
 
-**EN:** This is the IndexedDB local storage version (v3.0.0). Previous versions using Firebase (v2.0.0) and Google Sheets (v1.0.0) have been removed.
+**EN:** This is the IndexedDB local storage version with PRO licensing system (v3.1.0). The extension works completely offline with optional PRO upgrade for unlimited bookmarks and themes. Previous versions using Firebase (v2.0.0) and Google Sheets (v1.0.0) have been removed.
 
-**UK:** Це версія з локальним сховищем IndexedDB (v3.0.0). Попередні версії з Firebase (v2.0.0) та Google Sheets (v1.0.0) були видалені.
+**UK:** Це версія з локальним сховищем IndexedDB та системою PRO ліцензування (v3.1.0). Розширення працює повністю офлайн з опціональним PRO оновленням для необмеженої кількості закладок та тем. Попередні версії з Firebase (v2.0.0) та Google Sheets (v1.0.0) були видалені.
