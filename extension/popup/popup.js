@@ -212,7 +212,7 @@ class BookmarkPopup {
 
   async saveBookmark() {
     const saveBtn = document.getElementById('saveBtn');
-    const statusMessage = document.getElementById('statusMessage');
+    const statusMessage = document.getElementById('saveStatusMessage');
 
     try {
       saveBtn.disabled = true;
